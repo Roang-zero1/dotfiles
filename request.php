@@ -1,9 +1,7 @@
 <?php
 
-
-$website = 'http://koken.kurvendiskussionen.at'; //no trailing slash
-
-$key = 'KHdiEhp21mDwPMhhA2ZNI8i4m1CnAG';
+require_once 'ProgressBar/Manager.php';
+require_once 'ProgressBar/Registry.php';
 
 /*
  *
@@ -13,21 +11,51 @@ $key = 'KHdiEhp21mDwPMhhA2ZNI8i4m1CnAG';
  * In case your firewall blacklists you.
  *
  */
-echo "Caching for website: ".$website."\n";
-$urls = file_get_contents($website.'/cache.url.php?key='.$key);
 
+//Website to query cache
+$website = 'http://koken.kurvendiskussionen.at'; //no trailing slash
+
+// Get Key from keyfile
+$key = file_get_contents('/home/denocte/.koken_key');
+
+//Variable defauls
+$sizes = NULL;
+/*$sizes = array(
+		'tiny',
+		'medium_large',
+		'xlarge'
+	);*/
+
+$retina = NULL;
+//$retina = false;
+
+echo "Caching for website: ".$website."\n";
+
+//Generate query
+$query = http_build_query(array('key' => $key,'sizes' => $sizes ,'retina' => $retina));
+$urls = file_get_contents($website.'/cache.url.php?' . $query);
+
+//Decode the picture urls
 $requests = json_decode($urls, true);
 
-if ($requests === NULL){
+//Exit if no images need to be cached
+if ($requests == NULL){
 	echo "No requests\n";
 	die;
 }
 
+echo 'Caching ' . count($requests) . " images\n";
+
+//Initialize progress bar
+$progressBar = new \ProgressBar\Manager(0, count($requests));
+$progressBar->setFormat('Images: %current%/%max% [%bar%] %percent%%');
+
+//Cache image by calling the the webgsite
 foreach($requests as $i) {
-    echo "Caching ".$website.$i."\n";
 	$ch = curl_init($website.$i);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_exec($ch);
     curl_close($ch);
+	$progressBar->advance();
 }
