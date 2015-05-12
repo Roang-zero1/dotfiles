@@ -2,7 +2,7 @@
 
 function basics(){
 	drush -y sql-sync @live @$1 --skip-tables-key='test' --structure-tables-key='test'
-	mysql denocte_drupal_$1 < ~/drupal/languages_$1.sql
+	mysql denocte_drupal_$1 < ~/tools/languages_$1.sql
 	drush --exact @$1 vset cache 0
 	drush --exact @$1 vset preprocess_css 0
 	drush --exact @$1 vset preprocess_js 0
@@ -30,7 +30,7 @@ else
 	if [ $1 == 'dev' ]
 	then
 		#Backup theme_at_kurvendiskussionen_settings from development
-		drush vget theme_at_kurvendiskussionen_settings > ~/drupal/tmp/theme_at_kurvendiskussionen_settings
+		drush vget theme_at_kurvendiskussionen_settings > ~/tools/tmp/theme_at_kurvendiskussionen_settings
 		
 		#Basic Sync and settings
 		basics $1
@@ -46,8 +46,8 @@ else
 		
 		#Enable at_kurvendiskussionen theme and restore settings
 		drush --exact @$1 vset theme_default at_kurvendiskussionen
-		sed -i s/'theme_at_kurvendiskussionen_settings: '//g ~/drupal/tmp/theme_at_kurvendiskussionen_settings
-		php -r "print json_encode($(cat ~/drupal/tmp/theme_at_kurvendiskussionen_settings));" | drush vset --format=json theme_at_kurvendiskussionen_settings -
+		sed -i s/'theme_at_kurvendiskussionen_settings: '//g ~/tools/tmp/theme_at_kurvendiskussionen_settings
+		php -r "print json_encode($(cat ~/tools/tmp/theme_at_kurvendiskussionen_settings));" | drush vset --format=json theme_at_kurvendiskussionen_settings -
 		
 		drush @$1 cc all
 	elif [ $1 == 'staging' ]
