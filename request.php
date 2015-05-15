@@ -5,12 +5,12 @@ require_once 'ProgressBar/Registry.php';
 //Variable defauls
 $sizes       = NULL;
 $sizes_avail = array(
+    'xlarge',
+    'medium_large',
     'tiny',
     'small',
     'medium',
-    'medium_large',
     'large',
-    'xlarge',
     'huge'
 );
 
@@ -123,6 +123,13 @@ if ($list || $summary) {
 	}
 
 } else {
+	// Sort requests by size
+	$requests = array_merge(array_flip($sizes_avail),$requests);
+	$requests =array_filter($requests,function($k) {
+		return is_array($k);
+	});
+	
+	//Work all sizes
 	foreach($requests as $size => $images){
 		echo 'Caching ' . count($images) . ' ' . $size . " sized images\n";
 		
