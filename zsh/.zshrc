@@ -9,9 +9,11 @@ composer
 common-aliases
 dirhistory
 extract
+gem
 git
 git-extras
 mosh
+tmux
 wd
 Tarrasch/zsh-bd
 EOBUNDLES
@@ -26,7 +28,7 @@ antigen theme desyncr/zshrc themes/af-magic-mod
 # Tell antigen that you're done.
 antigen apply
 
-
+# Change history to be shared
 HISTFILE=~/.zhistory
 HISTSIZE=SAVEHIST=5000
 setopt incappendhistory
@@ -35,3 +37,7 @@ setopt extendedhistory
 
 #ssh-agent via keychain
 eval $(keychain --eval --agents ssh -Q id_rsa)
+
+path+=/package/host/localhost/ruby-2.2.0/bin
+path+=~/.gem/ruby/2.2.0/bin
+path=($^path(N))
