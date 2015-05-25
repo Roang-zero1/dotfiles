@@ -42,3 +42,5 @@ typeset -U path
 
 path[1,0]=/package/host/localhost/ruby-2.2.0/bin
 path[1,0]=~/.gem/ruby/2.2.0/bin
+
+unalias gm
