@@ -38,9 +38,17 @@ setopt extendedhistory
 #ssh-agent via keychain
 eval $(keychain --eval --agents ssh -Q id_rsa)
 
+# bindkey
+bindkey -e
+bindkey "\e[3~" delete-char
+# # Home- und End-Keys.
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+
 typeset -U path
 
 path[1,0]=/package/host/localhost/ruby-2.2.0/bin
 path[1,0]=~/.gem/ruby/2.2.0/bin
+path[1,0]=/package/host/localhost/nodejs-0.10/bin
 
 unalias gm
