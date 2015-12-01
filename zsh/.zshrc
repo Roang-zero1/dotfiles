@@ -13,6 +13,7 @@ gem
 git
 git-extras
 mosh
+npm
 tmux
 wd
 Tarrasch/zsh-bd
@@ -45,6 +46,9 @@ bindkey "\e[3~" delete-char
 # # Home- und End-Keys.
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
+
+# Initialize solarized ansi dircolors
+eval `dircolors ~/tools/zsh/dircolors/dircolors.ansi-dark`
 
 typeset -U path
 
