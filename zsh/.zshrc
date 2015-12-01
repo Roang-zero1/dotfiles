@@ -22,7 +22,8 @@ EOBUNDLES
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
-antigen theme desyncr/zshrc themes/af-magic-mod
+#antigen theme desyncr/zshrc themes/af-magic-mod
+antigen theme robbyrussell/oh-my-zsh themes/ys
 #antigen theme clean
 
 # Tell antigen that you're done.
