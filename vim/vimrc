@@ -1,6 +1,41 @@
+" This must be first, because it changes other options as side effect
+set nocompatible
+
+"Load Pathogen and enable
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
-syntax enable
+
+" change the mapleader from \ to ,
+let mapleader=","
+
+" Quickly edit/reload the vimrc file
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Basic editing and viewing settings
+syntax enable		" Syntax highlighting
+set number		" Show Linenumbers
+set autoindent		" always set autoindenting on
+set copyindent		" copy the previous indentation on autoindentinga
+set nowrap		" don't wrap lines
+set showmatch		" set show matching parenthesis
+set smartcase		" ignore case if search pattern is all lowercase,
+			"   case-sensitive otherwise
+set hlsearch		" highlight search terms
+set incsearch		" show search matches as you type
+
+set undolevels=1000      " use many muchos levels of undo
+
+set mouse=a
+
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
+autocmd filetype html,xml set listchars-=tab:>.
+
+" Enable Shortcut for large Pastes
+set pastetoggle=<F2>
+
+" Set background Colors and solarized Theme
 set background=dark
 let g:solarized_termtrans = 1
 colorscheme solarized
