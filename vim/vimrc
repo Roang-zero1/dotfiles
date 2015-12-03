@@ -11,6 +11,8 @@ let mapleader=","
 " Quickly edit/reload the vimrc file
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
+:nnoremap <leader>n :set nu<cr>
+:nnoremap <leader>nn :set nonu<cr>
 
 " Basic editing and viewing settings
 syntax enable		" Syntax highlighting
