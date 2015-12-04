@@ -19,3 +19,9 @@ esac
 echo "Relinkin .vimrc"
 rm -f .vimrc
 ln -s ~/tools/vim/vimrc .vimrc
+
+mkdir -p .vim
+rm -f .vim/bundle
+ln -s ~/tools/vim/bundle .vim/bundle
+rm -f .vim/plugin
+ln -s ~/tools/vim/plugin .vim/plugin
