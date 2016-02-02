@@ -1,0 +1,6 @@
+#!/bin/bash
+
+jekyll build $BUILD_OPTIONS
+rsync -rtv _site/* $SITE_FOLDER 
+
+echo "http://"$DOMAIN | mail -s "Website was updated" $NOTIFY
