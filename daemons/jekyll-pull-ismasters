@@ -1,0 +1,7 @@
+#!/bin/bash
+export DOMAIN=blog.roang.info
+export SITE_FOLDER=$HOME/virtual/$DOMAIN
+export NOTIFY=lb@roang.info
+export BUILD_OPTIONS=""
+cd $HOME/site-building/ismasters
+git pull
