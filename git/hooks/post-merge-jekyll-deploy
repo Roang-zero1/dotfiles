@@ -1,6 +1,17 @@
 #!/bin/bash
 
-jekyll build $BUILD_OPTIONS
-rsync -rtv _site/* $SITE_FOLDER 
+# Get temporary file names for output
+out=$(mktemp)
+err=$(mktemp)
+mail=$(mktemp)
 
-echo "http://"$DOMAIN | mail -s "Website was updated" $NOTIFY
+# Executing Commands
+(echo "Starting Build:"; jekyll build $BUILD_OPTIONS && echo "Starting Sync" && rsync -rtv _site/* $SITE_FOLDER) > $out 2>$err
+
+# Generate Mail Body and send
+(printf "Update for http://%s has run\nOutput:\n" $DOMAIN; cat $out; printf "\n Errors:\n"; cat $err; ) > $mail
+cat -v $mail | mail -s "Webiste $DOMAIN updated" $NOTIFY
+
+
+# Remove temporary files
+rm -f $out $err $mail

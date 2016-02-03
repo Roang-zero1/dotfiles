@@ -1,4 +1,6 @@
 #!/bin/bash
+PATH=$PATH:$HOME/.gem/ruby/2.2.0/bin
+
 export DOMAIN=blog.roang.info
 export SITE_FOLDER=$HOME/virtual/$DOMAIN
 export NOTIFY=lb@roang.info
