@@ -7,6 +7,10 @@ echo "Relinking .zshrc"
 rm -f .zshrc
 ln -s ~/tools/zsh/zshrc .zshrc
 
+echo "Relinking .zshrc"
+rm -f .gitconfig                                                                                                                                   
+ln -s ~/tools/git/gitconfig .gitconfig
+
 # Initialize gem local environment
 echo "Relinking .gemrc"
 rm -f .gemrc

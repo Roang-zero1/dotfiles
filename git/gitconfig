@@ -1,0 +1,11 @@
+[user]
+	name = Lucas Brandstaetter
+	email = lucas@brandstaetter.tech
+[push]
+	default = simple
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
+[merge]
+	stat = true
