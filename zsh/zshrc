@@ -26,6 +26,9 @@ if ! zgen saved; then
   zgen load zsh-users/zsh-syntax-highlighting
   zgen load zsh-users/zsh-autosuggestions
   
+  # Peco History search
+  zgen load jimeh/zsh-peco-history
+  
   # Better directory listings
   zgen load supercrabtree/k
   
@@ -48,6 +51,9 @@ HISTSIZE=SAVEHIST=5000
 setopt incappendhistory
 setopt sharehistory
 setopt extendedhistory
+
+# Change autosuggestions color
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
 #ssh-agent via keychain
 eval $(keychain --eval --timeout 120 --agents ssh -Q id_rsa)
