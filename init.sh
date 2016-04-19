@@ -3,12 +3,12 @@
 cd ~
 
 # Initialize zsh
-echo "Relinkin .zshrc"
+echo "Relinking .zshrc"
 rm -f .zshrc
 ln -s ~/tools/zsh/zshrc .zshrc
 
 # Initialize gem local environment
-echo "Relinkin .gemrc"
+echo "Relinking .gemrc"
 rm -f .gemrc
 case $HOSTNAME in
   (canopus.uberspace.de) echo "Linkink userspace";ln -s ~/tools/ruby/gemrc-userinstall .gemrc;;
@@ -16,7 +16,7 @@ case $HOSTNAME in
 esac
 
 # Initialize vim
-echo "Relinkin .vimrc"
+echo "Relinking .vimrc"
 rm -f .vimrc
 ln -s ~/tools/vim/vimrc .vimrc
 
