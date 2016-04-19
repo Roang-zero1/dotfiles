@@ -1,34 +1,44 @@
-source ~/tools/zsh/antigen/antigen.zsh
+source ~/tools/zsh/zgen/zgen.zsh
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
+# if the init scipt doesn't exist
+if ! zgen saved; then
 
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundles <<EOBUNDLES
-composer
-common-aliases
-dirhistory
-extract
-gem
-git
-git-extras
-mosh
-npm
-tmux
-wd
-Tarrasch/zsh-bd
-EOBUNDLES
-
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-# Load the theme.
-#antigen theme desyncr/zshrc themes/af-magic-mod
-antigen theme robbyrussell/oh-my-zsh themes/ys
-#antigen theme clean
-
-# Tell antigen that you're done.
-antigen apply
+  # Load plugins
+  zgen oh-my-zsh
+  zgen oh-my-zsh plugins/composer
+  zgen oh-my-zsh plugins/common-aliases
+  zgen oh-my-zsh plugins/dirhistory
+  zgen oh-my-zsh plugins/extract
+  zgen oh-my-zsh plugins/gem
+  zgen oh-my-zsh plugins/git
+  zgen oh-my-zsh plugins/git-extras
+  zgen oh-my-zsh plugins/mosh
+  zgen oh-my-zsh plugins/npm
+  zgen oh-my-zsh plugins/tmux
+  zgen oh-my-zsh plugins/wd
+  zgen oh-my-zsh Tarrasch/zsh-bd
+  
+  # Tips for defined aliases
+  zgen load djui/alias-tips
+  
+  zgen load zsh-users/zsh-syntax-highlighting
+  zgen load zsh-users/zsh-autosuggestions
+  
+  # Better directory listings
+  zgen load supercrabtree/k
+  
+  # Load Theme
+  zgen oh-my-zsh themes/ys
+  
+  # Dircolors solarized
+  joel-porquet/zsh-dircolors-solarized.git
+  
+  # Load additional completions
+  zgen load zsh-users/zsh-completions src
+  
+  # generate the init script from plugins above
+  zgen save
+fi
 
 # Change history to be shared
 HISTFILE=~/.zhistory
@@ -38,7 +48,7 @@ setopt sharehistory
 setopt extendedhistory
 
 #ssh-agent via keychain
-eval $(keychain --eval --timeout 120 --agents ssh id_rsa)
+eval $(keychain --eval --timeout 120 --agents ssh -Q id_rsa)
 
 # bindkey
 bindkey -e
@@ -46,9 +56,6 @@ bindkey "\e[3~" delete-char
 # # Home- und End-Keys.
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
-
-# Initialize solarized ansi dircolors
-eval `dircolors ~/tools/zsh/dircolors/dircolors.ansi-dark`
 
 typeset -U path
 
