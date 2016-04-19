@@ -1,6 +1,7 @@
 [user]
 	name = Lucas Brandstaetter
 	email = lucas@brandstaetter.tech
+	signingkey = 484E4C89
 [push]
 	default = simple
 [filter "lfs"]

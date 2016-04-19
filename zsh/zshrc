@@ -56,7 +56,12 @@ setopt extendedhistory
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
 #ssh-agent via keychain
-eval $(keychain --eval --timeout 120 --agents ssh -Q id_rsa)
+eval $(keychain --eval --agents ssh --timeout 120 -Q id_rsa)
+
+case $HOSTNAME in
+  (canopus.uberspace.de) keychain --eval --agents gpg --timeout 120 -Q 484E4C89;;
+  (*) ;;
+esac
 
 # bindkey
 bindkey -e

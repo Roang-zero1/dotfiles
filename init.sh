@@ -7,9 +7,12 @@ echo "Relinking .zshrc"
 rm -f .zshrc
 ln -s ~/tools/zsh/zshrc .zshrc
 
-echo "Relinking .zshrc"
+echo "Relinking .gitconfig"
 rm -f .gitconfig                                                                                                                                   
-ln -s ~/tools/git/gitconfig .gitconfig
+case $HOSTNAME in
+  (canopus.uberspace.de) echo "Linkink userspace";ln -s ~/tools/git/uberspace .gitconfig;;
+  (*) ;;
+esac
 
 # Initialize gem local environment
 echo "Relinking .gemrc"
