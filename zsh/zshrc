@@ -64,8 +64,11 @@ case $HOSTNAME in
 esac
 
 # Export gpg-agent info from keychain
-source ~/.gpg-agent-info
-export $(cat ~/.gpg-agent-info)
+if [ -f ~/.gpg-agent-info ]
+then
+  source ~/.gpg-agent-info
+  export $(cat ~/.gpg-agent-info)
+fi
 
 # bindkey
 bindkey -e
