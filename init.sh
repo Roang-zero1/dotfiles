@@ -32,3 +32,4 @@ rm -f .vim/bundle
 ln -s ~/tools/vim/bundle .vim/bundle
 rm -f .vim/plugin
 ln -s ~/tools/vim/plugin .vim/plugin
+

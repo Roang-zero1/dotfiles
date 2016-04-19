@@ -55,13 +55,17 @@ setopt extendedhistory
 # Change autosuggestions color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
-#ssh-agent via keychain
+# ssh-agent via keychain
 eval $(keychain --eval --agents ssh --timeout 120 -Q id_rsa)
 
 case $HOSTNAME in
-  (canopus.uberspace.de) keychain --eval --agents gpg --timeout 120 -Q 484E4C89;;
+  (canopus.uberspace.de) eval $(keychain --eval --agents gpg --timeout 120 -Q 484E4C89);;
   (*) ;;
 esac
+
+# Export gpg-agent info from keychain
+source ~/.gpg-agent-info
+export $(cat ~/.gpg-agent-info)
 
 # bindkey
 bindkey -e
@@ -69,6 +73,9 @@ bindkey "\e[3~" delete-char
 # # Home- und End-Keys.
 bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
+
+# Init solarized dir colors
+setupsolarized dircolors.ansi-dark
 
 typeset -U path
 
