@@ -38,7 +38,7 @@ setopt sharehistory
 setopt extendedhistory
 
 #ssh-agent via keychain
-eval $(keychain --eval --agents ssh -Q id_rsa)
+eval $(keychain --eval --timeout 120 --agents ssh id_rsa)
 
 # bindkey
 bindkey -e
