@@ -1,3 +1,5 @@
+TMPPREFIX=~/tmp/zsh-
+
 source ~/tools/zsh/zgen/zgen.zsh
 
 # if the init scipt doesn't exist
