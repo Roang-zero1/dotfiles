@@ -9,6 +9,7 @@ if ! zgen saved; then
   zgen prezto node
   zgen prezto autosuggestions
   zgen prezto completion
+  zgen prezto utility
   zgen prezto prompt
 
   # Easier directory traversal
@@ -24,7 +25,7 @@ if ! zgen saved; then
   
   # Better directory listings
   zgen load supercrabtree/k
-  
+
   # Dircolors solarized
   zgen load joel-porquet/zsh-dircolors-solarized
   
@@ -67,6 +68,10 @@ source ~/tools/zsh/bindkeys.zsh
 
 # Init solarized dir colors
 setupsolarized dircolors.ansi-dark
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':prezto:module:prompt' theme 'sorin'
+
+alias ls='ls --color=auto'
 
 typeset -U path
 
