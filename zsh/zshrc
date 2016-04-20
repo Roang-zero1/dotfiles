@@ -1,4 +1,5 @@
 TMPPREFIX=~/tmp/zsh-
+mkdir -p ~/tmp
 
 source ~/tools/zsh/zgen/zgen.zsh
 
