@@ -69,7 +69,6 @@ source ~/tools/zsh/bindkeys.zsh
 # Init solarized dir colors
 setupsolarized dircolors.ansi-dark
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':prezto:module:prompt' theme 'sorin'
 
 alias ls='ls --color=auto'
 
@@ -78,3 +77,8 @@ typeset -U path
 path[1,0]=/package/host/localhost/ruby-2.2.0/bin
 path[1,0]=~/.gem/ruby/2.2.0/bin
 path[1,0]=/package/host/localhost/nodejs-5/bin
+
+case $HOSTNAME in
+  (canopus.uberspace.de) path[1,0]=/package/host/localhost/zsh/bin/;;
+  (*) ;;
+esac
