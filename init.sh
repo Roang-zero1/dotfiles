@@ -7,10 +7,6 @@ echo "Relinking .zshrc"
 rm -f .zshrc
 ln -s ~/tools/zsh/zshrc .zshrc
 
-# Initialize zsh prezto
-rm -f .zpreztorc
-ln -s ~/tools/zsh/zpreztorc .zpreztorc
-
 echo "Relinking .gitconfig"
 rm -f .gitconfig                                                                                                                                   
 case $HOSTNAME in
