@@ -36,7 +36,7 @@ if ! zgen saved; then
   zgen load supercrabtree/k
   
   # Load Theme
-  zgen oh-my-zsh themes/ys
+  zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
 
   # Dircolors solarized
   zgen load joel-porquet/zsh-dircolors-solarized
@@ -47,6 +47,17 @@ if ! zgen saved; then
   # generate the init script from plugins above
   zgen save
 fi
+
+#customize bullet-train
+BULLETTRAIN_PROMPT_ORDER=(
+  time
+  dir
+  context
+  git
+)
+BULLETTRAIN_STATUS_EXIT_SHOW=true
+BULLETTRAIN_CONTEXT_SHOW=true
+BULLETTRAIN_CONTEXT_FG=yellow
 
 # Change history to be shared
 HISTFILE=~/.zhistory
