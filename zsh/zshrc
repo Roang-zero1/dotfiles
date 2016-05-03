@@ -5,14 +5,12 @@ source ~/tools/zsh/zgen/zgen.zsh
 
 # if the init scipt doesn't exist
 if ! zgen saved; then
-
+  
   # Load plugins
   zgen oh-my-zsh
-  zgen oh-my-zsh plugins/composer
   zgen oh-my-zsh plugins/common-aliases
   zgen oh-my-zsh plugins/dirhistory
   zgen oh-my-zsh plugins/extract
-  zgen oh-my-zsh plugins/gem
   zgen oh-my-zsh plugins/git
   zgen oh-my-zsh plugins/git-extras
   zgen oh-my-zsh plugins/mosh
@@ -26,9 +24,6 @@ if ! zgen saved; then
   # Tips for defined aliases
   zgen load djui/alias-tips
   
-  zgen load zsh-users/zsh-syntax-highlighting
-  zgen load zsh-users/zsh-autosuggestions
-  
   # Peco History search
   zgen load jimeh/zsh-peco-history
   
@@ -37,12 +32,21 @@ if ! zgen saved; then
   
   # Load Theme
   zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
-
+  
   # Dircolors solarized
   zgen load joel-porquet/zsh-dircolors-solarized
   
+  # Solarized manuals
+  zgen load zlsun/solarized-man
+  
   # Load additional completions
   zgen load zsh-users/zsh-completions src
+  
+  zgen load zsh-users/zsh-syntax-highlighting
+  zgen load zsh-users/zsh-autosuggestions
+  
+  # Load 256 Term colors
+  zgen load chrissicool/zsh-256color
   
   # generate the init script from plugins above
   zgen save
@@ -55,13 +59,22 @@ BULLETTRAIN_PROMPT_ORDER=(
   context
   git
 )
-BULLETTRAIN_STATUS_EXIT_SHOW=true
+
 BULLETTRAIN_CONTEXT_SHOW=true
-BULLETTRAIN_CONTEXT_FG=yellow
+BULLETTRAIN_CONTEXT_FG=178
+BULLETTRAIN_CONTEXT_BG=8
+BULLETTRAIN_DIR_BG=25
+BULLETTRAIN_STATUS_EXIT_SHOW=true
+BULLETTRAIN_TIME_BG=16
+BULLETTRAIN_TIME_FG=7
+
 
 # Change history to be shared
 HISTFILE=~/.zhistory
 HISTSIZE=SAVEHIST=5000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_REDUCE_BLANKS
 setopt incappendhistory
 setopt sharehistory
 setopt extendedhistory
@@ -102,6 +115,9 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 alias ls='ls --color=auto'
 
 typeset -U path
+
+# Export for tmux
+export EDITOR='vim'
 
 path[1,0]=/package/host/localhost/ruby-2.2.0/bin
 path[1,0]=~/.gem/ruby/2.2.0/bin
