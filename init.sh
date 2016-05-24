@@ -11,11 +11,11 @@ rm -f .vim/bundle
 rm -f .vim/plugin
 
 echo "Relinking .zshrc"
-ln -s ~/tools/zsh/zshrc .zshrc
+ln -s ~/tools/zsh/zsh.rc .zshrc
 echo "Relinking .gitconfig"
-ln -s ~/tools/git/uberspace .gitconfig
+ln -s ~/tools/git/uberspace.conf .gitconfig
 echo "Relinking vim files and dirs"
-ln -s ~/tools/vim/vimrc .vimrc
+ln -s ~/tools/vim/vim.rc .vimrc
 mkdir -p .vim
 ln -s ~/tools/vim/bundle .vim/bundle
 ln -s ~/tools/vim/plugin .vim/plugin
@@ -28,7 +28,7 @@ case $HOSTNAME in
       rm -f .gemrc
       
       echo "Relinking .gemrc"
-      ln -s ~/tools/ruby/gemrc-userinstall .gemrc
+      ln -s ~/tools/ruby/gem-userinstall.rc .gemrc
       echo "Relinking bash_profile"
       ln -s ~/tools/bash/bash_profile_uberspace .bash_profile
       ;;
