@@ -124,6 +124,7 @@ path[1,0]=~/.gem/ruby/2.2.0/bin
 path[1,0]=/package/host/localhost/nodejs-5/bin
 
 case $HOSTNAME in
-  (canopus.uberspace.de) path[1,0]=$HOME/.toast/armed/bin/zsh;;
+  (canopus.uberspace.de) path[1,0]=$HOME/.toast/armed/bin/zsh
+  	  path[0,1]=$HOME/.composer/vendor/bin;;
   (*) ;;
 esac

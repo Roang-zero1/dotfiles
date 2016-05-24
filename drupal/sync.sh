@@ -2,7 +2,7 @@
 
 function basics(){
 	drush -y sql-sync @live @$1 --skip-tables-key='test' --structure-tables-key='test'
-	mysql denocte_drupal_$1 < ~/tools/languages_$1.sql
+	mysql denocte_drupal_$1 < ~/tools/drupal/languages_$1.sql
 	drush --exact @$1 vset cache 0
 	drush --exact @$1 vset preprocess_css 0
 	drush --exact @$1 vset preprocess_js 0
