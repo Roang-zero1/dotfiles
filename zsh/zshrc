@@ -82,21 +82,6 @@ setopt extendedhistory
 # Change autosuggestions color
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
-# ssh-agent via keychain
-eval $(keychain --eval --agents ssh --timeout 120 -Q id_rsa)
-
-case $HOSTNAME in
-  (canopus.uberspace.de) eval $(keychain --eval --agents gpg --timeout 120 -Q 484E4C89);;
-  (*) ;;
-esac
-
-# Export gpg-agent info from keychain
-if [ -f ~/.gpg-agent-info ]
-then
-  source ~/.gpg-agent-info
-  export $(cat ~/.gpg-agent-info)
-fi
-
 # bindkey
 bindkey -e
 
@@ -119,6 +104,8 @@ typeset -U path
 # Export for tmux
 export EDITOR='vim'
 
+export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man:/usr/man:/usr/local/man
+
 path[1,0]=/package/host/localhost/ruby-2.2.0/bin
 path[1,0]=~/.gem/ruby/2.2.0/bin
 path[1,0]=/package/host/localhost/nodejs-5/bin
@@ -128,3 +115,18 @@ case $HOSTNAME in
   	  path[0,1]=$HOME/.composer/vendor/bin;;
   (*) ;;
 esac
+
+# ssh-agent via keychain
+eval $(keychain --eval --agents ssh --timeout 120 -Q id_rsa)
+
+case $HOSTNAME in
+  (canopus.uberspace.de) eval $(keychain --eval --agents gpg --timeout 120 -Q 484E4C89);;
+  (*) ;;
+esac
+
+# Export gpg-agent info from keychain
+if [ -f ~/.gpg-agent-info ]
+then
+  source ~/.gpg-agent-info
+  export $(cat ~/.gpg-agent-info)
+fi
