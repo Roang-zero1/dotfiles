@@ -2,7 +2,6 @@
 set nocompatible
 
 "Load Pathogen and enable
-runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 " change the mapleader from \ to ,
@@ -16,16 +15,18 @@ set autoindent		" always set autoindenting on
 set copyindent		" copy the previous indentation on autoindentinga
 set nowrap		" don't wrap lines
 
-set undolevels=1000      " use many muchos levels of undo
+set undolevels=1000	" use many muchos levels of undo
 
-" Enable mouse (toggle via plugin)
-set mouse=a
+set shiftwidth=2	" Set indent width
+set showmatch		" Show matching parenthesis
+
+set visualbell		" Don't ring
+set noerrorbells	" don't ring
 
 " Display whitespace characters
 set list
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
 " Change tab display for files where they are usual
-autocmd filetype html,xml set listchars-=tab:>.
+au FileType html,xml set listchars-=tab:>.
 
 " Enable Shortcut for large Pastes
 set pastetoggle=<F2>
@@ -35,8 +36,9 @@ set pastetoggle=<F2>
 " Quickly edit/reload the vimrc file
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :so $MYVIMRC<cr>
+
 " Toggle line numbering
-:nnoremap <leader>n :set nu!<cr>
+:nnoremap <leader>n :set nu! relativenumber!<cr>
 
 " Toggle show/hide invisible chars
 :nnoremap <leader>i :set list!<cr>
@@ -56,6 +58,9 @@ map <C-l> <C-w>l
 nnoremap <C-e> 2<C-e>
 nnoremap <C-y> 2<C-y>
 
+" Force sudo on a readony file
+cmap w!! w !sudo tee % >/dev/null
+
 " Search options
 " Disable vim specific regex
 nnoremap / /\v
@@ -73,7 +78,6 @@ vnoremap <tab> %
 " Strip all trailing whitespace from a file, using ,W
 nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
-
 " Set background Colors and solarized Theme
 set background=dark
 let g:solarized_termtrans = 1
@@ -85,3 +89,4 @@ augroup myvimrc
     au!
     au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
+

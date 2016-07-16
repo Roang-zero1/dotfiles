@@ -1,6 +1,6 @@
 # .bash_profile
 
-# User specific environment and startup programs
+# User specific environment and start-up programs
 
 PATH=$HOME/bin:$PATH
 PATH=$HOME/.toast/armed/bin/zsh:$PATH

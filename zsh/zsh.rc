@@ -3,9 +3,9 @@ mkdir -p ~/tmp
 
 source ~/tools/zsh/zgen/zgen.zsh
 
-# if the init scipt doesn't exist
+# if the init script doesn't exist
 if ! zgen saved; then
-  
+
   # Load plugins
   zgen oh-my-zsh
   zgen oh-my-zsh plugins/common-aliases
@@ -17,42 +17,47 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/npm
   zgen oh-my-zsh plugins/tmux
   zgen oh-my-zsh plugins/wd
-  
+
   # Easier directory traversal
   zgen load Tarrasch/zsh-bd
-  
+
   # Tips for defined aliases
   zgen load djui/alias-tips
-  
+
   # Peco History search
   zgen load jimeh/zsh-peco-history
-  
+
   # Better directory listings
   zgen load supercrabtree/k
-  
+
   # Load Theme
   zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
-  
+
   # Dircolors solarized
   zgen load joel-porquet/zsh-dircolors-solarized
-  
+
   # Solarized manuals
   zgen load zlsun/solarized-man
-  
+
   # Load additional completions
   zgen load zsh-users/zsh-completions src
-  
+
   zgen load zsh-users/zsh-syntax-highlighting
   zgen load zsh-users/zsh-autosuggestions
-  
+
   # Load 256 Term colors
   zgen load chrissicool/zsh-256color
-  
+
   # generate the init script from plugins above
   zgen save
 fi
 
-#customize bullet-train
+# Get hostname if environment variable is empty
+if [ -z "$HOSTNAME" ]; then
+  HOSTNAME=$(hostname)
+fi
+
+# customize bullet-train
 BULLETTRAIN_PROMPT_ORDER=(
   time
   dir
@@ -79,7 +84,7 @@ setopt incappendhistory
 setopt sharehistory
 setopt extendedhistory
 
-# Change autosuggestions color
+# Change autosuggestions colour
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
 # bindkey
@@ -93,26 +98,35 @@ source ~/tools/zsh/bindkeys.zsh
 # load completion
 source ~/tools/zsh/completion/init.zsh
 
-# Init solarized dir colors
+# Init solarized dir colours
 setupsolarized dircolors.ansi-dark
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 alias ls='ls --color=auto'
+alias vi='vim'
 
 typeset -U path
 
 # Export for tmux
 export EDITOR='vim'
 
-export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man:/usr/man:/usr/local/man
-
 path[1,0]=/package/host/localhost/ruby-2.2.0/bin
 path[1,0]=~/.gem/ruby/2.2.0/bin
 path[1,0]=/package/host/localhost/nodejs-5/bin
+path[1,0]=~/.cabal/bin
 
 case $HOSTNAME in
   (canopus.uberspace.de) path[1,0]=$HOME/.toast/armed/bin/zsh
-  	  path[0,1]=$HOME/.composer/vendor/bin;;
+      path[0,1]=$HOME/.composer/vendor/bin
+      export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man:/usr/man:/usr/local/man
+      ;;
+  (*) ;;
+esac
+
+case $HOSTNAME in
+  (centdesk.brandstaetter) source /usr/local/share/chruby/chruby.sh
+      source /usr/local/share/chruby/auto.sh
+      ;;
   (*) ;;
 esac
 
