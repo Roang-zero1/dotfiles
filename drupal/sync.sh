@@ -35,7 +35,6 @@ else
     smail "$1" "dev@denocte.canopus.uberspace.de"
     drush --exact "@$1" vset piwik_site_id 2
 
-
     #Drop fontyourface tables while they are not in production
     mysql "denocte_drupal_$1" -e "drop table fontyourface_font;drop table fontyourface_tag;drop table fontyourface_tag_font;"
     #Enable font your face settings and feature

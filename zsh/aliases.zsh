@@ -57,7 +57,6 @@ fi
 alias df='df -kh'
 alias du='du -kh'
 
-
 # ls, from prezto
 alias l='ls -1A'         # Lists in one column, hidden files.
 alias ll='ls -lh'        # Lists human readable sizes.
