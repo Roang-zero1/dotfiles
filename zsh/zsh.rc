@@ -132,14 +132,3 @@ esac
 # ssh-agent via keychain
 eval $(keychain --eval --agents ssh --timeout 120 -Q id_rsa)
 
-case $HOSTNAME in
-  (canopus.uberspace.de) eval $(keychain --eval --agents gpg --timeout 120 -Q 484E4C89);;
-  (*) ;;
-esac
-
-# Export gpg-agent info from keychain
-if [ -f ~/.gpg-agent-info ]
-then
-  source ~/.gpg-agent-info
-  export $(cat ~/.gpg-agent-info)
-fi

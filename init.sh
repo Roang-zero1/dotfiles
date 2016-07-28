@@ -1,6 +1,11 @@
 #!/bin/bash
 
-cd ~ || echo "CD failed to change dir"; exit 1
+if cd $HOME; then
+  echo "Changed dir to $HOME"
+else
+  echo "CD failed to change dir"
+  exit 1
+fi
 
 # Default linking
 echo "Linking defaults"
