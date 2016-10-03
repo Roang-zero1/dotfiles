@@ -11,7 +11,7 @@ For convenience you can install GPA, but it is not needed.
   Edit -> Backend Preferences -> GPG Agent  
   enable-putty-support
   * Edit or create the file %APPDATA%\gnupg\gpg-agent.conf.  
-  Add the line enable-putty-support
+  Add the line `enable-putty-support`
 * Restart the gpg agent with:
   * `gpg-connect-agent killagent /bye`
   * `gpg-connect-agent /bye`
