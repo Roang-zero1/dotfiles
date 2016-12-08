@@ -10,3 +10,6 @@
 [submodule "vim/bundle/vim-sensible"]
 	path = vim/bundle/vim-sensible
 	url = https://github.com/tpope/vim-sensible.git
+[submodule "tools/keychain"]
+	path = tools/keychain
+	url = https://github.com/funtoo/keychain.git
