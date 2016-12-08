@@ -13,6 +13,7 @@ rm -f .zshrc
 rm -f .gitconfig
 rm -f .vimrc
 rm -r .vim
+rm -f .gnupg/gpg.conf
 
 echo "Relinking .zshrc"
 ln -s ~/tools/zsh/zsh.rc .zshrc
@@ -21,6 +22,8 @@ ln -s ~/tools/git/git.conf .gitconfig
 echo "Relinking vim files and dirs"
 ln -s ~/tools/vim/vim.rc .vimrc
 ln -s ~/tools/vim/ .vim
+echo "Relinking gnupg configuration"
+ln -s ~/tools/gnupg/gpg.conf .gnupg/gpg.conf
 
 # Host specific linking
 case $HOSTNAME in
