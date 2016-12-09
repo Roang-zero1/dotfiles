@@ -36,6 +36,8 @@ case $HOSTNAME in
       ln -s ~/tools/ruby/gem-userinstall.rc .gemrc
       echo "Relinking bash_profile"
       ln -s ~/tools/bash/bash_profile_uberspace .bash_profile
+      yes | cp $HOME/tools/tools/keychain/keychain.sh $HOME/bin/keychain
       ;;
-  (*) ;;
+  (*) sudo yes | cp $HOME/tools/tools/keychain/keychain.sh /usr/bin/keychain
+  ;;
 esac
