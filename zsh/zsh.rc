@@ -109,26 +109,20 @@ typeset -U path
 # Export for tmux
 export EDITOR='vim'
 
-path[1,0]=/package/host/localhost/ruby-2.2.0/bin
-path[1,0]=~/.gem/ruby/2.2.0/bin
-path[1,0]=/package/host/localhost/nodejs-5/bin
-path[1,0]=~/.cabal/bin
-
 case $HOSTNAME in
-  (canopus.uberspace.de) path[1,0]=$HOME/.toast/armed/bin/zsh
-      path[0,1]=$HOME/.composer/vendor/bin
-      export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man:/usr/man:/usr/local/man
-      ;;
-  (*) ;;
-esac
-
-case $HOSTNAME in
-  (centdesk.brandstaetter) source /usr/local/share/chruby/chruby.sh
-      source /usr/local/share/chruby/auto.sh
+  # Uberspace path maniplulation
+  (canopus.uberspace.de)
+    path=($HOME/.toast/armed/bin/zsh $path)
+    path=(/package/host/localhost/nodejs-5/bin $path)
+    path+=($HOME/.composer/vendor/bin)
+    path+=(~/.gem/ruby/2.2.0/bin)
+    path+=(~/src/go/bin)
+    export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man:/usr/man:/usr/local/man
+    export GOPATH=~/src/go
       ;;
   (*) ;;
 esac
 
 # ssh-agent via keychain
-eval $(keychain --eval --agents ssh --timeout 120 -Q id_rsa)
+eval $(keychain --eval --agents ssh --timeout 120 id_ed25519 id_rsa)
 
