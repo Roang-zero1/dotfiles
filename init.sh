@@ -25,19 +25,27 @@ ln -s ~/tools/vim/ .vim
 echo "Relinking gnupg configuration"
 ln -s ~/tools/gnupg/gpg.conf .gnupg/gpg.conf
 
+echo "Apply mapping specific to host $HOSTNAME"
 # Host specific linking
 case $HOSTNAME in
   (canopus.uberspace.de)
-      echo "Linkink userspace";
-      rm -f .bash_profile
-      rm -f .gemrc
+    echo "Linkink userspace";
+    rm -f .bash_profile
+    rm -f .gemrc
 
-      echo "Relinking .gemrc"
-      ln -s ~/tools/ruby/gem-userinstall.rc .gemrc
-      echo "Relinking bash_profile"
-      ln -s ~/tools/bash/bash_profile_uberspace .bash_profile
-      yes | cp $HOME/tools/tools/keychain/keychain.sh $HOME/bin/keychain
-      ;;
-  (*) sudo cp $HOME/tools/tools/keychain/keychain.sh /usr/bin/keychain
-  ;;
+    echo "Relinking .gemrc"
+    ln -s ~/tools/ruby/gem-userinstall.rc .gemrc
+    echo "Relinking bash_profile"
+    ln -s ~/tools/bash/bash_profile_uberspace .bash_profile
+    yes | cp $HOME/tools/tools/keychain/keychain.sh $HOME/bin/keychain
+    ;;
+  (mobile-ubuntu)
+    echo "Moving keychain"
+    sudo cp $HOME/tools/tools/keychain/keychain.sh /usr/bin/keychain
+    echo "Fixing up gpg config for atom"
+    rm -f .gnupg/gpg.conf
+    cp ~/tools/gnupg/gpg.conf .gnupg/gpg.conf
+    sed -i '$ a\#Fix tty for atom' .gnupg/gpg.conf
+    sed -i '$ a\no-tty' .gnupg/gpg.conf
+    ;;
 esac
