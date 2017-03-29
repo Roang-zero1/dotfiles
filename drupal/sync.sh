@@ -22,7 +22,7 @@ function smail() {
 set -o xtrace
 
 if [ -z "$1" ]; then
-	echo Please select target for production sync
+  echo Please select target for production sync
 else
 
   if [ "$1" == 'dev' ]; then
