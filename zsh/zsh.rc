@@ -120,6 +120,8 @@ case $HOSTNAME in
     export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man:/usr/man:/usr/local/man
     export GOPATH=~/src/go
       ;;
+  (travelbuntu)
+    source /usr/local/share/chruby/chruby.sh
   (*) ;;
 esac
 
