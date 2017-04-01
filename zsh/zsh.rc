@@ -121,6 +121,7 @@ case $HOSTNAME in
     export GOPATH=~/src/go
       ;;
   (travelbuntu)
+    path+=(~/.cargo/bin)
     source /usr/local/share/chruby/chruby.sh
     source /usr/local/share/chruby/auto.sh
       ;;
