@@ -4,6 +4,7 @@
 
 # git aliases
 alias gu='git up'
+alias gsl='git commit --amend -S --no-edit'
 
 # Disable correction.
 alias ack='nocorrect ack'
@@ -72,3 +73,11 @@ alias sl='ls'            # I often screw this up.
 
 alias atom='atom --disable-gpu'
 alias gitkraken='gitkraken --disable-gpu'
+
+# npm
+alias npm-exec='PATH=$(npm bin):$PATH'
+
+xo-project () {
+  ag --js -l --ignore $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }') | xargs xo
+}
+
