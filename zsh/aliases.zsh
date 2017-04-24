@@ -3,7 +3,6 @@
 #
 
 # git aliases
-alias gu='git up'
 alias gsl='git commit --amend -S --no-edit'
 
 # Disable correction.

@@ -67,9 +67,6 @@ if ! zgen saved; then
   zgen oh-my-zsh plugins/tmux
   zgen oh-my-zsh plugins/wd
 
-  # Easier directory traversal
-  zgen load Tarrasch/zsh-bd
-
   # Tips for defined aliases
   zgen load djui/alias-tips
 
