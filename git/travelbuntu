@@ -1,0 +1,10 @@
+[user]
+  signingkey = 671FACF72C52CED2
+[commit]
+  gpgsign = true
+[core]
+	editor = code --wait -n
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE

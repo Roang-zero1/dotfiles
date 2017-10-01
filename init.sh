@@ -7,12 +7,13 @@ else
   exit 1
 fi
 
-# Default linking
-echo "Linking defaults"
+echo "Removing existing config"
 rm -f .zshrc
 rm -f .gitconfig
+rm -f .gitlocalconfig
 rm -f .vimrc
 rm -r .vim
+rm -f .gnupg/gpg.conf
 rm -f .gnupg/gpg.conf
 
 echo "Relinking .zshrc"
@@ -38,6 +39,8 @@ case $HOSTNAME in
     echo "Relinking bash_profile"
     ln -s ~/tools/bash/bash_profile_uberspace .bash_profile
     yes | cp $HOME/tools/tools/keychain/keychain.sh $HOME/bin/keychain
+    echo "Linking local config"
+    ln -s ~/tools/git/travelbuntu .gitlocalconfig
     ;;
   (travelbuntu)
     echo "Moving keychain"
@@ -47,5 +50,7 @@ case $HOSTNAME in
     cp ~/tools/gnupg/gpg.conf .gnupg/gpg.conf
     sed -i '$ a\#Fix tty for atom' .gnupg/gpg.conf
     sed -i '$ a\no-tty' .gnupg/gpg.conf
+    echo "Linking local config"
+    ln -s ~/tools/git/travelbuntu .gitlocalconfig
     ;;
 esac
