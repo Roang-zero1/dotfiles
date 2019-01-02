@@ -26,31 +26,35 @@ ln -s ~/tools/vim/ .vim
 echo "Relinking gnupg configuration"
 ln -s ~/tools/gnupg/gpg.conf .gnupg/gpg.conf
 
-echo "Apply mapping specific to host $HOSTNAME"
-# Host specific linking
-case $HOSTNAME in
-  (canopus.uberspace.de)
-    echo "Linkink userspace";
-    rm -f .bash_profile
-    rm -f .gemrc
+PS3="Please select the configuration to apply: "
+options=("Own" "Uberspace" "Quit")
+select opt in "${options[@]}"
+do
+  case $opt in
+    "Own")
+      echo "Applying mapping specific to own devices"
+      echo "Linking local config"
+      ln -s ~/tools/git/travelbuntu .gitlocalconfig
+      break
+      ;;
+    "Uberspace")
+      echo "Applying mapping specific to Uberspaces"
+      echo "Linkink userspace";
+      rm -f .bash_profile
+      rm -f .gemrc
 
-    echo "Relinking .gemrc"
-    ln -s ~/tools/ruby/gem-userinstall.rc .gemrc
-    echo "Relinking bash_profile"
-    ln -s ~/tools/bash/bash_profile_uberspace .bash_profile
-    yes | cp $HOME/tools/tools/keychain/keychain.sh $HOME/bin/keychain
-    echo "Linking local config"
-    ln -s ~/tools/git/travelbuntu .gitlocalconfig
-    ;;
-  (travelbuntu)
-    echo "Moving keychain"
-    sudo cp $HOME/tools/tools/keychain/keychain.sh /usr/bin/keychain
-    echo "Fixing up gpg config for atom"
-    rm -f .gnupg/gpg.conf
-    cp ~/tools/gnupg/gpg.conf .gnupg/gpg.conf
-    sed -i '$ a\#Fix tty for atom' .gnupg/gpg.conf
-    sed -i '$ a\no-tty' .gnupg/gpg.conf
-    echo "Linking local config"
-    ln -s ~/tools/git/travelbuntu .gitlocalconfig
-    ;;
-esac
+      echo "Relinking .gemrc"
+      ln -s ~/tools/ruby/gem-userinstall.rc .gemrc
+      echo "Relinking bash_profile"
+      ln -s ~/tools/bash/bash_profile_uberspace .bash_profile
+      yes | cp $HOME/tools/tools/keychain/keychain.sh $HOME/bin/keychain
+      echo "Linking local config"
+      ln -s ~/tools/git/travelbuntu .gitlocalconfig
+      break
+      ;;
+    "Quit")
+      break
+      ;;
+    *) echo "invalid option $Reply";;
+  esac
+done
