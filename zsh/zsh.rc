@@ -145,6 +145,6 @@ case $HOSTNAME in
 esac
 
 # ssh-agent via keychain
-if type "$keychain" > /dev/null; then
+if (( $+commands[keychain] )) then
   eval $(keychain --eval --agents ssh --timeout 120 id_ed25519 id_rsa)
 fi
