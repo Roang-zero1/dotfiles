@@ -1,5 +1,5 @@
 [include]
-  path=~/.gitlocalconfig
+  path=~/.gitconfig.local
 [user]
   name = Lucas Brandstaetter
   email = lucas@brandstaetter.tech
