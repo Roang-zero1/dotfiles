@@ -2,7 +2,7 @@
 	path = vim/bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "zsh/zgen"]
-	path = zsh/zgen
+	path = .zsh/zgen
 	url = https://github.com/tarjoilija/zgen.git
 [submodule "vim/pathogen"]
 	path = vim/pathogen
@@ -10,6 +10,3 @@
 [submodule "vim/bundle/vim-sensible"]
 	path = vim/bundle/vim-sensible
 	url = https://github.com/tpope/vim-sensible.git
-[submodule "tools/keychain"]
-	path = tools/keychain
-	url = https://github.com/funtoo/keychain.git

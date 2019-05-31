@@ -37,15 +37,12 @@ case $USER in
   (denocte)
     P9K_CONTEXT_DEFAULT_FOREGROUND="red"
       ;;
-  (roang)
-    P9K_CONTEXT_DEFAULT_FOREGROUND="green"
-      ;;
   (*) ;;
 esac
 
 P9K_CONTEXT_DEFAULT_FOREGROUD=""
 
-source ~/tools/zsh/zgen/zgen.zsh
+source ~/.zsh/zgen/zgen.zsh
 # if the init script doesn't exist
 if ! zgen saved; then
 
@@ -108,10 +105,10 @@ setopt extendedhistory
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
 bindkey -e
-source ~/tools/zsh/bindkeys.zsh
+source ~/.zsh/bindkeys.zsh
 
-source ~/tools/zsh/aliases.zsh
-source ~/tools/zsh/completion/init.zsh
+source ~/.zsh/aliases.zsh
+source ~/.zsh/completion/init.zsh
 
 # Init solarized dir colours
 setupsolarized dircolors.ansi-dark
@@ -137,14 +134,7 @@ case $HOSTNAME in
     export GOPATH=~/src/go
       ;;
   (travelbuntu)
-    path+=(~/.cargo/bin)
-    source /usr/local/share/chruby/chruby.sh
-    source /usr/local/share/chruby/auto.sh
       ;;
   (*) ;;
 esac
 
-# ssh-agent via keychain
-if (( $+commands[keychain] )) then
-  eval $(keychain --eval --agents ssh --timeout 120 id_ed25519 id_rsa)
-fi
