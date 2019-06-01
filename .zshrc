@@ -144,6 +144,8 @@ typeset -U path
 # Export for tmux
 export EDITOR='vim'
 
+path+=(~/.yarn/bin)
+
 case $HOSTNAME in
   # Uberspace path maniplulation
   (canopus.uberspace.de)
