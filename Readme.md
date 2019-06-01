@@ -4,10 +4,26 @@ This is my personal tools collection which includes my dotfiles, some Windows Do
 
 ## Setup
 
-Once you clone the repository you can use the init.sh or init.bat files to set up the environment.
+Install yadm on the system:
 
-However most of these inits are limited to specific servers, due to this you will have to pick the ones that fit and match them accordingly.
+### Ubuntu
+
+On Ubuntu yadm is available via apt.
+
+`sudo apt install yadm`
+
+### Manual install
+
+Alternatively the binary can be downloaded from github.
+
+#### System wide installation
+
+`curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x /usr/local/bin/yadm`
+
+#### User installation
+
+`curl -fLo ~/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x ~/bin/yadm`
 
 ## ZSH
 
-Plugins and themes are loaded with [zgen](https://github.com/tarjoilija/zgen)
+Plugins and themes are loaded with [zplug](https://github.com/zplug/zplug)
