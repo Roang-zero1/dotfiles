@@ -1,10 +1,20 @@
 #!/bin/zsh
 
-# Delete bind
+bindkey "\e[2~" overwrite-mode
 bindkey "\e[3~" delete-char
+
 # # Home- und End-Keys.
-bindkey '\e[1~' beginning-of-line
-bindkey '\e[4~' end-of-line
+if [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; then
+  bindkey "^[[1~" beginning-of-line
+  bindkey "^[[4~" end-of-line
+else
+  # Assign these keys if tmux is NOT being used:
+  bindkey "^[[H" beginning-of-line
+  bindkey "^[[F" end-of-line
+fi
+
+bindkey "^[[5~" beginning-of-history #PageUp
+bindkey "^[[6~" end-of-history #PageDown
 
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
