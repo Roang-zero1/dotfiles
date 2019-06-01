@@ -1,7 +1,3 @@
-TMPPREFIX=~/tmp/zsh-
-mkdir -p ~/tmp
-export TERM="xterm-256color"
-
 ## Powerlevel Theme settings
 
 # Enable fa icon support
