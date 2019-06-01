@@ -92,9 +92,9 @@ zplug "djui/alias-tips"
 zplug "joel-porquet/zsh-dircolors-solarized"
 zplug "zlsun/solarized-man"
 
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 zplug "chrissicool/zsh-256color"
 
@@ -112,7 +112,7 @@ if ! zplug check --verbose; then
     fi
 fi
 
-zplug load --verbose
+zplug load
 unalias fd
 alias fd=fdfind
 
