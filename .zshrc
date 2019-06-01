@@ -42,49 +42,79 @@ esac
 
 P9K_CONTEXT_DEFAULT_FOREGROUD=""
 
-source ~/.zsh/zgen/zgen.zsh
-# if the init script doesn't exist
-if ! zgen saved; then
+source ~/.zplug/init.zsh
 
-  # Load plugins
-  zgen oh-my-zsh
-  zgen oh-my-zsh plugins/common-aliases
-  zgen oh-my-zsh plugins/dirhistory
-  zgen oh-my-zsh plugins/extract
-  zgen oh-my-zsh plugins/git
-  zgen oh-my-zsh plugins/git-extras
-  zgen oh-my-zsh plugins/mosh
-  zgen oh-my-zsh plugins/npm
-  zgen oh-my-zsh plugins/wd
+# Better directory listings
+zplug "supercrabtree/k"
 
-  # Tips for defined aliases
-  zgen load djui/alias-tips
+zplug  "plugins/common-aliases", from:oh-my-zsh
+zplug  "plugins/extract", from:oh-my-zsh
+zplug  "plugins/git", from:oh-my-zsh
+zplug  "plugins/git-extras", from:oh-my-zsh
+zplug  "plugins/npm", from:oh-my-zsh
 
-  # Peco History search
-  zgen load jimeh/zsh-peco-history
+# fzf loading and options
 
-  # Better directory listings
-  zgen load supercrabtree/k
+zplug "junegunn/fzf-bin", \
+    from:gh-r, \
+    as:command, \
+    rename-to:fzf, \
+    use:"*linux*amd64*"
 
-  # Load Theme
-  zgen load bhilburn/powerlevel9k powerlevel9k next
+zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 
-  zgen load joel-porquet/zsh-dircolors-solarized
-  zgen load zlsun/solarized-man
+FZF_COMPLETION_TRIGGER='~~'
 
-  # Load additional completions
-  zgen load zsh-users/zsh-completions src
+if type "fd" >> /dev/null; then
+  _fzf_compgen_path() {
+    fd --hidden --follow --exclude ".git" . "$1"
+  }
 
-  zgen load zsh-users/zsh-syntax-highlighting
-  zgen load zsh-users/zsh-autosuggestions
-
-  # Load 256 Term colors
-  zgen load chrissicool/zsh-256color
-
-  # generate the init script from plugins above
-  zgen save
+  _fzf_compgen_dir() {
+    fd --type d --hidden --follow --exclude ".git" . "$1"
+  }
 fi
 
+if type "fdfind" >> /dev/null; then
+  _fzf_compgen_path() {
+    fdfind --hidden --follow --exclude ".git" . "$1"
+  }
+
+  _fzf_compgen_dir() {
+    fdfind --type d --hidden --follow --exclude ".git" . "$1"
+  }
+fi
+
+zplug "b4b4r07/enhancd", use:init.sh
+
+zplug "djui/alias-tips"
+
+zplug "joel-porquet/zsh-dircolors-solarized"
+zplug "zlsun/solarized-man"
+
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zsh-autosuggestions"
+
+zplug "chrissicool/zsh-256color"
+
+zplug "bhilburn/powerlevel9k", at:next, as:theme
+
+zplug "~/.zsh", from:local
+
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+    if ! type "fd" >> /dev/null && ! type "fdfind" >> /dev/null; then
+      echo "Install fd find package for fzf find!"
+    fi
+fi
+
+zplug load --verbose
+unalias fd
+alias fd=fdfind
 
 # Get hostname if environment variable is empty
 if [ -z "$HOSTNAME" ]; then
@@ -105,10 +135,6 @@ setopt extendedhistory
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
 bindkey -e
-source ~/.zsh/bindkeys.zsh
-
-source ~/.zsh/aliases.zsh
-source ~/.zsh/completion/init.zsh
 
 # Init solarized dir colours
 setupsolarized dircolors.ansi-dark
