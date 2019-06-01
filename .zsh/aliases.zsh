@@ -2,6 +2,9 @@
 # Use with caution
 #
 
+# ssh for pkcs#11
+alias ssh-add-pkcs11='ssh-add -s /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so'
+
 # git aliases
 alias gsl='git commit --amend -S --no-edit'
 
