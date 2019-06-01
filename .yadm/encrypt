@@ -1,3 +1,2 @@
 .ssh/config
-.ssh/autorized_keys##uberspace
-.ssh/autorized_keys
+.ssh/authorized_keys##*
