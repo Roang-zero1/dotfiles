@@ -48,6 +48,7 @@ zplug  "plugins/extract", from:oh-my-zsh
 zplug  "plugins/git", from:oh-my-zsh
 zplug  "plugins/git-extras", from:oh-my-zsh
 zplug  "plugins/npm", from:oh-my-zsh
+zplug  "plugins/docker", from:oh-my-zsh
 
 # fzf loading and options
 
@@ -144,7 +145,8 @@ typeset -U path
 # Export for tmux
 export EDITOR='vim'
 
-path+=(~/.yarn/bin)
+[ -d "~/.yarn/bin" ] && path+=(~/.yarn/bin)
+[ -d "~/.local/bin" ] && path+=(~/.local/bin)
 
 case $HOSTNAME in
   # Uberspace path maniplulation
