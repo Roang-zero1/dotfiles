@@ -123,8 +123,9 @@ zplug "chrissicool/zsh-256color"
 zplug "bhilburn/powerlevel9k", at:next, as:theme
 
 zplug "~/.zsh", from:local
+zplug "~/.zsh-local", from:local, if:"[ -d ~/.zsh-local ]"
 
-if ! zplug check --verbose; then
+if ! zplug check; then
     printf "Install? [y/N]: "
     if read -q; then
         echo; zplug install
@@ -157,6 +158,14 @@ setopt extendedhistory
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
 bindkey -e
+
+{% if yadm.host == "lbr-local-dev" %}
+# Fix home, end, insert and delete keys
+bindkey "\e[1~" beginning-of-line
+bindkey "\e[4~" end-of-line
+bindkey "\e[3~" delete-char
+bindkey "\e[2~" quoted-insert
+{% endif %}
 
 # Init solarized dir colours
 setupsolarized dircolors.ansi-dark
