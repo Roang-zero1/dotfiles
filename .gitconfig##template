@@ -2,7 +2,11 @@
   path=~/.gitconfig.local
 [user]
   name = Lucas Brandstaetter
+{% if yadm.user == "lbr" %}
+  email = lbr@limessecurity.com
+{% else %}
   email = lucas@brandstaetter.tech
+{% endif %}
 [push]
   default = simple
 [filter "lfs"]
@@ -28,3 +32,4 @@
 
   unmerged = diff --name-only --diff-filter=U
   remotes = remote -v
+
