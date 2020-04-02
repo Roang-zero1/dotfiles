@@ -1,2 +1,2 @@
-.ssh/config
+.ssh/config##*
 .ssh/authorized_keys##*
