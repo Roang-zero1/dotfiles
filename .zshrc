@@ -49,6 +49,9 @@ zplug  "plugins/git", from:oh-my-zsh
 zplug  "plugins/git-extras", from:oh-my-zsh
 zplug  "plugins/npm", from:oh-my-zsh
 zplug  "plugins/docker", from:oh-my-zsh
+zplug  "plugins/alias-finder", from:oh-my-zsh
+
+ZSH_ALIAS_FINDER_AUTOMATIC=true
 
 # fzf loading and options
 
@@ -83,8 +86,6 @@ if type "fdfind" >> /dev/null; then
 fi
 
 zplug "b4b4r07/enhancd", use:init.sh
-
-zplug "djui/alias-tips"
 
 zplug "joel-porquet/zsh-dircolors-solarized"
 zplug "zlsun/solarized-man"

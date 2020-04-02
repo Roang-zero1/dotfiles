@@ -80,8 +80,7 @@ nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Set background Colors and solarized Theme
 set background=dark
-let g:solarized_termtrans = 1
-colorscheme solarized
+colorscheme solarized8_flat
 filetype plugin indent on
 
 " Auto reload .vimrc
