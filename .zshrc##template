@@ -4,11 +4,25 @@
 P9K_MODE='nerdfont-complete'
 
 DEFAULT_USER='lucas'
-P9K_LEFT_PROMPT_ELEMENTS=('root_indicator' 'background_jobs' 'context' 'dir' 'vcs' 'status')
-P9K_RIGHT_PROMPT_ELEMENTS=('virtualenv' 'history' 'time' 'battery')
+P9K_LEFT_PROMPT_ELEMENTS=(
+  'root_indicator'
+  'background_jobs'
+  'context'
+  'dir'
+  'vcs'
+  'status'
+)
+P9K_RIGHT_PROMPT_ELEMENTS=(
+  'virtualenv'
+  'history'
+  'time'
+{% if yadm.class == "desktop" %}
+  'battery'
+{% endif %}
+)
 P9K_PROMPT_ON_NEWLINE=true
 P9K_MULTILINE_FIRST_PROMPT_PREFIX_ICON=""
-P9K_MULTILINE_LAST_PROMPT_PREFIX_ICON=$'%K{green}%F{black} \uf155 %f%F{green}%k\ue0b0%f '
+P9K_MULTILINE_LAST_PROMPT_PREFIX_ICON=$'%K{green}%F{black} \uf135 %f%F{green}%k\ue0b0%f '
 
 P9K_STATUS_OK_ICON=$'\uf164'
 P9K_STATUS_ERROR_ICON=$'\uf165'
@@ -28,28 +42,38 @@ P9K_BATTERY_STAGES=($'\uf579' $'\uf57a' $'\uf57b' $'\uf57c' $'\uf57d' $'\uf57e' 
 P9K_BATTERY_LEVEL_BACKGROUND=(clear)
 P9K_BATTERY_LOW_THRESHOLD=15
 
-case $USER in
- # Uberspace path maniplulation
-  (denocte)
-    P9K_CONTEXT_DEFAULT_FOREGROUND="red"
-      ;;
-  (*) ;;
-esac
+P9K_CONTEXT_ROOT_ICON=$'\uf46c'
+P9K_CONTEXT_REMOTE_ICON=$'\ue795'
+P9K_CONTEXT_REMOTE_SUDO_ICON=$'\uf46c'
+P9K_CONTEXT_ROOT_ICON_COLOR="red"
+P9K_CONTEXT_REMOTE_SUDO_ICON_COLOR="red"
 
-P9K_CONTEXT_DEFAULT_FOREGROUD=""
+{% if yadm.class == "uberspace" %}
+P9K_CONTEXT_REMOTE_FOREGROUND="red"
+P9K_CONTEXT_REMOTE_ICON_COLOR="red"
+{% else %}
+P9K_CONTEXT_REMOTE_FOREGROUND="blue"
+P9K_CONTEXT_REMOTE_ICON_COLOR="blue"
+{% endif %}
 
 source ~/.zplug/init.zsh
 
 # Better directory listings
 zplug "supercrabtree/k"
 
+zplug  "plugins/alias-finder", from:oh-my-zsh
 zplug  "plugins/common-aliases", from:oh-my-zsh
+zplug  "plugins/docker", from:oh-my-zsh
+zplug  "plugins/docker-compose", from:oh-my-zsh
 zplug  "plugins/extract", from:oh-my-zsh
 zplug  "plugins/git", from:oh-my-zsh
 zplug  "plugins/git-extras", from:oh-my-zsh
 zplug  "plugins/npm", from:oh-my-zsh
-zplug  "plugins/docker", from:oh-my-zsh
-zplug  "plugins/alias-finder", from:oh-my-zsh
+zplug  "plugins/yarn", from:oh-my-zsh
+
+{% if yadm.class == "work" %}
+zplug  "plugins/django", from:oh-my-zsh
+{% endif %}
 
 ZSH_ALIAS_FINDER_AUTOMATIC=true
 
@@ -146,22 +170,17 @@ typeset -U path
 # Export for tmux
 export EDITOR='vim'
 
-[ -d "~/.yarn/bin" ] && path+=(~/.yarn/bin)
-[ -d "~/.local/bin" ] && path+=(~/.local/bin)
+[ -d "~/.yarn/bin" ] && path+=(~/.yarn/bin) || true
+[ -d "~/.local/bin" ] && path+=(~/.local/bin) || true
 
-case $HOSTNAME in
-  # Uberspace path maniplulation
-  (canopus.uberspace.de)
-    path=($HOME/.toast/armed/bin/zsh $path)
-    path=(/package/host/localhost/nodejs-5/bin $path)
-    path+=($HOME/.composer/vendor/bin)
-    path+=(~/.gem/ruby/2.2.0/bin)
-    path+=(~/src/go/bin)
-    export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man:/usr/man:/usr/local/man
-    export GOPATH=~/src/go
-      ;;
-  (travelbuntu)
-      ;;
-  (*) ;;
-esac
+
+{% if yadm.hostname == "canopus.uberspace.de" %}
+path=($HOME/.toast/armed/bin/zsh $path)
+path+=(/package/host/localhost/nodejs-5/bin $path)
+path+=($HOME/.composer/vendor/bin)
+path+=(~/.gem/ruby/2.2.0/bin)
+path+=(~/src/go/bin)
+export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man>
+export GOPATH=~/src/go
+{% endif %}
 
