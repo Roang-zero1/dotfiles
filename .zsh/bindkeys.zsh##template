@@ -51,3 +51,7 @@ bindkey -s "^[Ol" "+"
 bindkey -s "^[OS" "-"
 bindkey -s "^[OR" "*"
 bindkey -s "^[OQ" "/"
+
+## Plugin Keybindings
+
+bindkey '^T' toggle-fzf-tab
