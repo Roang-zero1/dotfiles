@@ -103,16 +103,6 @@ setopt extendedhistory
 # Change autosuggestions colour
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=4
 
-bindkey -e
-
-{% if yadm.host == "lbr-local-dev" %}
-# Fix home, end, insert and delete keys
-bindkey "\e[1~" beginning-of-line
-bindkey "\e[4~" end-of-line
-bindkey "\e[3~" delete-char
-bindkey "\e[2~" quoted-insert
-{% endif %}
-
 # Init solarized dir colours
 setupsolarized dircolors.ansi-dark
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
@@ -127,7 +117,6 @@ export EDITOR='vim'
 
 [ -d "~/.yarn/bin" ] && path+=(~/.yarn/bin) || true
 [ -d "~/.local/bin" ] && path+=(~/.local/bin) || true
-
 
 {% if yadm.hostname == "canopus.uberspace.de" %}
 path=($HOME/.toast/armed/bin/zsh $path)
