@@ -1,61 +1,3 @@
-## Powerlevel Theme settings
-
-# Enable fa icon support
-P9K_MODE='nerdfont-complete'
-
-DEFAULT_USER='lucas'
-P9K_LEFT_PROMPT_ELEMENTS=(
-  'root_indicator'
-  'background_jobs'
-  'context'
-  'dir'
-  'vcs'
-  'status'
-)
-P9K_RIGHT_PROMPT_ELEMENTS=(
-  'virtualenv'
-  'history'
-  'time'
-{% if yadm.class == "desktop" %}
-  'battery'
-{% endif %}
-)
-P9K_PROMPT_ON_NEWLINE=true
-P9K_MULTILINE_FIRST_PROMPT_PREFIX_ICON=""
-P9K_MULTILINE_LAST_PROMPT_PREFIX_ICON=$'%K{green}%F{black} \uf135 %f%F{green}%k\ue0b0%f '
-
-P9K_STATUS_OK_ICON=$'\uf164'
-P9K_STATUS_ERROR_ICON=$'\uf165'
-P9K_STATUS_CR_ICON=$'\uf165'
-
-P9K_DIR_SHORTEN_LENGTH=3
-P9K_DIR_SHORTEN_STRATEGY="truncate_middle"
-P9K_VCS_INCOMING_CHANGES_ICON="\u2193"
-P9K_VCS_OUTGOING_CHANGES_ICON="\u2191"
-P9K_VCS_SHOW_CHANGESET="true"
-P9K_VCS_CHANGESET_HASH_LENGTH="12"
-P9K_HISTORY_ICON="\uf1da"
-P9K_TIME_FORMAT="%D{%H:%M \uf017 %d.%m.%y \uf073}"
-P9K_TIME_ICON=""
-P9K_STATUS_VERBOSE="true"
-P9K_BATTERY_STAGES=($'\uf579' $'\uf57a' $'\uf57b' $'\uf57c' $'\uf57d' $'\uf57e' $'\uf57f' $'\uf580' $'\uf581' $'\uf578')
-P9K_BATTERY_LEVEL_BACKGROUND=(clear)
-P9K_BATTERY_LOW_THRESHOLD=15
-
-P9K_CONTEXT_ROOT_ICON=$'\uf46c'
-P9K_CONTEXT_REMOTE_ICON=$'\ue795'
-P9K_CONTEXT_REMOTE_SUDO_ICON=$'\uf46c'
-P9K_CONTEXT_ROOT_ICON_COLOR="red"
-P9K_CONTEXT_REMOTE_SUDO_ICON_COLOR="red"
-
-{% if yadm.class == "uberspace" %}
-P9K_CONTEXT_REMOTE_FOREGROUND="red"
-P9K_CONTEXT_REMOTE_ICON_COLOR="red"
-{% else %}
-P9K_CONTEXT_REMOTE_FOREGROUND="blue"
-P9K_CONTEXT_REMOTE_ICON_COLOR="blue"
-{% endif %}
-
 source ~/.zplug/init.zsh
 
 # Better directory listings
@@ -120,7 +62,7 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 zplug "chrissicool/zsh-256color"
 
-zplug "bhilburn/powerlevel9k", at:next, as:theme
+zplug "romkatv/powerlevel10k", at:v1.5.0, as:theme
 
 zplug "~/.zsh", from:local
 zplug "~/.zsh-local", from:local, if:"[ -d ~/.zsh-local ]"
@@ -136,6 +78,10 @@ if ! zplug check; then
 fi
 
 zplug load
+
+# Load Powerlevel 10k config
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 unalias fd
 alias fd=fdfind
 
