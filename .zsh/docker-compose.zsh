@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
-typeset -g -A MY_P9K_DOCKER_OUTPUT
 
 function parse_compose_data() {
   local working_directory=$1
   local compose_out
-  compose_out=$(docker-compose --project-directory $working_directory ps 2>/dev/null);
+  compose_out=$(cd $working_directory; docker-compose ps 2>&1)
   local compose_rc=$?
+  local output
+  output="None"
   if [ "$compose_rc" -eq 0 ]; then
-    local output
     if [[ $DOCKER_MACHINE_NAME != "" && $DOCKER_MACHINE_NAME != "default" ]]; then
       DOCKER_MACHINE_NAME_LOCAL="%{$fg_bold[red]%}"$DOCKER_MACHINE_NAME"%{$fg_bold[blue]%}:"
     else
@@ -28,19 +28,35 @@ function parse_compose_data() {
     done
 
     output="$output)"
+  fi
 
-    MY_P9K_DOCKER_OUTPUT[$working_directory]=$output
-  else
-    MY_P9K_DOCKER_OUTPUT[$working_directory]=""
+  echo "$working_directory"
+  echo "$output"
+}
+
+function p10k_refresh() {
+  local working_directory
+  local docker_status
+  return_values=(${(f)3})
+  if [ "$return_values[2]" != "None" ]; then
+    MY_P9K_DOCKER_OUTPUT[$return_values[1]]=$return_values[2]
+    zle reset-prompt
+    zle -R
   fi
 }
+
+async_init
+async_start_worker docker_compose_status -n
+async_register_callback docker_compose_status p10k_refresh
+typeset -g -A MY_P9K_DOCKER_OUTPUT
 
 function prompt_my_docker_compose() {
   if type "docker-compose" >> /dev/null; then
     local working_directory=$(pwd)
-    parse_compose_data $working_directory
+    async_job docker_compose_status parse_compose_data $working_directory
     if [ ! -z $MY_P9K_DOCKER_OUTPUT[$working_directory] ]; then
       p10k segment -i $'\uf308' -f blue -t "$MY_P9K_DOCKER_OUTPUT[$working_directory]"
     fi
   fi
 }
+
