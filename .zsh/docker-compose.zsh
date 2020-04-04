@@ -51,12 +51,9 @@ async_register_callback docker_compose_status p10k_refresh
 typeset -g -A MY_P9K_DOCKER_OUTPUT
 
 function prompt_my_docker_compose() {
-  if type "docker-compose" >> /dev/null; then
-    local working_directory=$(pwd)
-    async_job docker_compose_status parse_compose_data $working_directory
-    if [ ! -z $MY_P9K_DOCKER_OUTPUT[$working_directory] ]; then
-      p10k segment -i $'\uf308' -f blue -t "$MY_P9K_DOCKER_OUTPUT[$working_directory]"
-    fi
-  fi
+  (( $+commands[docker-compose] )) || return
+  async_job docker_compose_status parse_compose_data $PWD
+  local content='$MY_P9K_DOCKER_OUTPUT[$PWD]'
+  p10k segment -i $'\uf308' -f blue -e -c $content -t $content
 }
 
