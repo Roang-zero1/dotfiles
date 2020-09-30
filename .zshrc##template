@@ -65,7 +65,7 @@ zplug "chrissicool/zsh-256color"
 
 zplug "mafredri/zsh-async", use:"async.zsh"
 
-zplug "romkatv/powerlevel10k", at:v1.5.0, as:theme
+zplug "romkatv/powerlevel10k", at:v1.13.0, as:theme
 
 zplug "~/.zsh", from:local
 zplug "~/.zsh-local", from:local, if:"[ -d ~/.zsh-local ]"
