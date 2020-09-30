@@ -45,13 +45,15 @@ function p10k_refresh() {
   fi
 }
 
+if ! (($+commands[docker-compose])); then return; fi
+
 async_init
 async_start_worker docker_compose_status -n
 async_register_callback docker_compose_status p10k_refresh
 typeset -g -A MY_P9K_DOCKER_OUTPUT
 
 function prompt_my_docker_compose() {
-  (( $+commands[docker-compose] )) || return
+  (( $+commands[docker-compose] )) || true && return
   async_job docker_compose_status parse_compose_data $PWD
   local content='$MY_P9K_DOCKER_OUTPUT[$PWD]'
   p10k segment -i $'\uf308' -f blue -e -c $content -t $content
