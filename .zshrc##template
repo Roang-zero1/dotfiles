@@ -126,6 +126,10 @@ export EDITOR='vim'
 if [ -d "$HOME/.pyenv/bin" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
   path+=($HOME/.pyenv/bin)
+  eval "$($HOME/.pyenv/bin/pyenv init -)"
+  if [ -d "$(pyenv root)/plugins/pyenv-virtualenv" ]; then
+    $(pyenv virtualenv-init -)
+  fi
 fi
 if [ -d "/usr/local/go" ]; then
   export GOROOT=/usr/local/go
