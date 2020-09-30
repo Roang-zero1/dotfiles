@@ -121,8 +121,18 @@ typeset -U path
 # Export for tmux
 export EDITOR='vim'
 
-[ -d "~/.yarn/bin" ] && path+=(~/.yarn/bin) || true
-[ -d "~/.local/bin" ] && path+=(~/.local/bin) || true
+[ -d "$HOME/.yarn/bin" ] && path+=($HOME/.yarn/bin) || true
+[ -d "$HOME/.local/bin" ] && path+=($HOME/.local/bin) || true
+if [ -d "$HOME/.pyenv/bin" ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  path+=($HOME/.pyenv/bin)
+fi
+if [ -d "/usr/local/go" ]; then
+  export GOROOT=/usr/local/go
+  export GOPATH=$HOME/go
+  path+=($GOROOT/bin)
+  path+=($GOPATH/bin)
+fi
 
 {% if yadm.hostname == "canopus.uberspace.de" %}
 path=($HOME/.toast/armed/bin/zsh $path)
