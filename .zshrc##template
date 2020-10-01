@@ -128,7 +128,7 @@ if [ -d "$HOME/.pyenv/bin" ]; then
   path+=($HOME/.pyenv/bin)
   eval "$($HOME/.pyenv/bin/pyenv init -)"
   if [ -d "$(pyenv root)/plugins/pyenv-virtualenv" ]; then
-    $(pyenv virtualenv-init -)
+    eval "$(pyenv virtualenv-init -)"
   fi
 fi
 if [ -d "/usr/local/go" ]; then
