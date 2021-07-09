@@ -41,6 +41,7 @@ alias ln="${aliases[ln]:-ln} -i"
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
 alias mv="${aliases[mv]:-mv} -i"
 alias rm="${aliases[rm]:-rm} -i"
+alias vi='vim'
 
 # Grep
 export GREP_COLOR='37;45'           # BSD.
@@ -60,19 +61,23 @@ alias df='df -kh'
 alias du='du -kh'
 
 # ls, from prezto
-alias l='ls -1A'         # Lists in one column, hidden files.
-alias ll='ls -lh'        # Lists human readable sizes.
-alias lr='ll -R'         # Lists human readable sizes, recursively.
-alias la='ll -A'         # Lists human readable sizes, hidden files.
-alias lm='la | "$PAGER"' # Lists human readable sizes, hidden files through pager.
-alias lx='ll -XB'        # Lists sorted by extension (GNU only).
-alias lk='ll -Sr'        # Lists sorted by size, largest last.
-alias lt='ll -tr'        # Lists sorted by date, most recent last.
-alias lc='lt -c'         # Lists sorted by date, most recent last, shows change time.
-alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
-alias sl='ls'            # I often screw this up.
+alias ls='exa'
+alias l='exa -1a'                                 # Lists in one column, hidden files.
+alias ll='exa -lb --git --time-style=long-iso'    # Lists in a list
+alias lld='ll -DhHgma --color-scale'              # Lists human readable sizes, hidden files.
+alias llt='ll --tree --level=2'                   # Lists in a tree
+alias lltt='ll --tree'                            # Lists in a deep tree
+alias lr='ll -R'                                  # Lists human readable sizes, recursively.
+alias la='ll -hHgma --color-scale'                # Lists human readable sizes, hidden files.
+alias lad='la --group-directories-first'          # Lists human readable sizes, hidden files.
+alias lm='la | "$PAGER"'                          # Lists human readable sizes, hidden files through pager.
+alias lx='ll -XB'                                 # Lists include extended attributes
+alias lk='ll -s size'                             # Lists sorted by size, largest last.
+alias lt='ll -s modified'                         # Lists sorted by date, most recent last.
+alias lc='lt -U'                                  # Lists sorted by date, most recent last, shows created time.
+alias lu='lt -u'                                  # Lists sorted by date, most recent last, shows access time.
+alias sl='ls'                                     # I often screw this up.
 
-alias atom='atom --disable-gpu'
 alias gitkraken='gitkraken --disable-gpu'
 
 # npm
