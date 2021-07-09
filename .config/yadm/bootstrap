@@ -9,3 +9,7 @@ yadm submodule update --recursive --init
 
 yadm decrypt
 
+yadm alt
+
+zinit self-update
+zinit update

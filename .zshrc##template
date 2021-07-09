@@ -1,31 +1,35 @@
-source ~/.zplug/init.zsh
+source ~/.zinit/bin/zinit.zsh
+
+zinit light zinit-zsh/z-a-bin-gem-node
+zinit light zinit-zsh/z-a-patch-dl
 
 # Better directory listings
-zplug "supercrabtree/k"
+zinit light "supercrabtree/k"
 
-zplug  "plugins/alias-finder", from:oh-my-zsh
-zplug  "plugins/common-aliases", from:oh-my-zsh
-zplug  "plugins/extract", from:oh-my-zsh
-zplug  "plugins/git", from:oh-my-zsh
-zplug  "plugins/git-extras", from:oh-my-zsh
-zplug  "plugins/npm", from:oh-my-zsh
+zinit ice lucid
+zinit snippet OMZP::common-aliases
+
+zinit wait lucid for \
+  OMZP::alias-finder \
+  OMZP::extract \
+  OMZP::git \
+  OMZP::git-extras \
+  OMZP::npm
 
 {% if yadm.class == "work" %}
-zplug  "plugins/django", from:oh-my-zsh
+zinit ice wait lucid
+zinit snippet OMZP::django
 {% endif %}
 
 ZSH_ALIAS_FINDER_AUTOMATIC=true
 
+# Install fd from github
+zinit as"null" wait"2" lucid from"gh-r" for \
+    mv"exa* -> exa" sbin"bin/exa" ogham/exa \
+    mv"fd* -> fd" sbin"fd/fd" @sharkdp/fd
+
 # fzf loading and options
-
-zplug "junegunn/fzf-bin", \
-    from:gh-r, \
-    as:command, \
-    rename-to:fzf, \
-    use:"*linux*amd64*"
-
-zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
-
+zplugin pack"bgn-binary+keys" for fzf
 FZF_COMPLETION_TRIGGER='~~'
 
 if type "fd" >> /dev/null; then
@@ -38,55 +42,43 @@ if type "fd" >> /dev/null; then
   }
 fi
 
-if type "fdfind" >> /dev/null; then
-  _fzf_compgen_path() {
-    fdfind --hidden --follow --exclude ".git" . "$1"
-  }
+zinit light "Aloxaf/fzf-tab"
 
-  _fzf_compgen_dir() {
-    fdfind --type d --hidden --follow --exclude ".git" . "$1"
-  }
-fi
-zplug "Aloxaf/fzf-tab"
 
-zplug "b4b4r07/enhancd", use:init.sh
+zinit ice pick"init.sh"
+zinit load b4b4r07/enhancd
 
-zplug "joel-porquet/zsh-dircolors-solarized"
-zplug "zlsun/solarized-man"
+zinit light "joel-porquet/zsh-dircolors-solarized"
+zinit light "zlsun/solarized-man"
 
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-# docker completions
-zplug "greymd/docker-zsh-completion", defer:2
-zplug "g-plane/zsh-yarn-autocompletions", hook-build:"./zplug.zsh", defer:2
+# Improved commandline interactivity
+zinit light "zsh-users/zsh-autosuggestions"
+zinit ice wait lucid
+zinit light zdharma/fast-syntax-highlighting
 
-zplug "chrissicool/zsh-256color"
+zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
+  "zsh-users/zsh-completions" \
+  "greymd/docker-zsh-completion" \
+  is-snippet ~/.zsh/completion.zsh
+zinit ice atload"zpcdreplay" atclone'./zplug.zsh'
+zinit light g-plane/zsh-yarn-autocompletions
 
-zplug "mafredri/zsh-async", use:"async.zsh"
+zinit light "chrissicool/zsh-256color"
 
-zplug "romkatv/powerlevel10k", at:v1.13.0, as:theme
+zinit ice pick"async.zsh"
+zinit light "mafredri/zsh-async"
 
-zplug "~/.zsh", from:local
-zplug "~/.zsh-local", from:local, if:"[ -d ~/.zsh-local ]"
+zinit ice depth"1" # git clone depth
+zinit load "romkatv/powerlevel10k"
 
-if ! zplug check; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-    if ! type "fd" >> /dev/null && ! type "fdfind" >> /dev/null; then
-      echo "Install fd find package for fzf find!"
-    fi
-fi
-
-zplug load
+zinit wait lucid for \
+  is-snippet  ~/.zsh/aliases.zsh \
+  is-snippet  ~/.zsh/bindkeys.zsh
 
 # Load Powerlevel 10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 unalias fd
-alias fd=fdfind
 
 # Get hostname if environment variable is empty
 if [ -z "$HOSTNAME" ]; then
@@ -112,9 +104,9 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # Init solarized dir colours
 setupsolarized dircolors.ansi-dark
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-alias ls='ls --color=auto'
-alias vi='vim'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
 typeset -U path
 
