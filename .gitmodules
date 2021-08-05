@@ -7,6 +7,6 @@
 [submodule ".vim/bundle/vim-solarized8"]
 	path = .vim/bundle/vim-solarized8
 	url = https://github.com/lifepillar/vim-solarized8.git
-[submodule "/home/lbr/.zinit/bin"]
-	path = /home/lbr/.zinit/bin
+[submodule ".zinit/bin"]
+	path = .zinit/bin
 	url = https://github.com/zdharma/zinit.git
