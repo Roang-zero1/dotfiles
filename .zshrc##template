@@ -115,6 +115,7 @@ export EDITOR='vim'
 
 [ -d "$HOME/.yarn/bin" ] && path+=($HOME/.yarn/bin) || true
 [ -d "$HOME/.local/bin" ] && path+=($HOME/.local/bin) || true
+[ -d "$HOME/.poetry/bin" ] && path+=($HOME/.poetry/bin) || true
 if [ -d "$HOME/.pyenv/bin" ]; then
   export PYENV_ROOT="$HOME/.pyenv"
   path+=($HOME/.pyenv/bin)
