@@ -46,7 +46,6 @@ zinit light "Aloxaf/fzf-tab"
 
 
 zinit ice pick"init.sh"
-zinit load b4b4r07/enhancd
 
 zinit light "joel-porquet/zsh-dircolors-solarized"
 zinit light "zlsun/solarized-man"
@@ -78,7 +77,7 @@ zinit wait lucid for \
 # Load Powerlevel 10k config
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-unalias fd
+unalias fd 2>/dev/null
 
 # Get hostname if environment variable is empty
 if [ -z "$HOSTNAME" ]; then
