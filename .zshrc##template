@@ -47,7 +47,6 @@ zinit light "Aloxaf/fzf-tab"
 
 zinit ice pick"init.sh"
 
-zinit light "joel-porquet/zsh-dircolors-solarized"
 zinit light "zlsun/solarized-man"
 
 # Improved commandline interactivity
@@ -100,10 +99,8 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_USE_ASYNC=True
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-# Init solarized dir colours
-setupsolarized dircolors.ansi-dark
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zinit pack for dircolors-material
+
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
