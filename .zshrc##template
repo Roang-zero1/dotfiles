@@ -24,12 +24,12 @@ zinit snippet OMZP::django
 ZSH_ALIAS_FINDER_AUTOMATIC=true
 
 # Install fd from github
-zinit as"null" wait"2" lucid from"gh-r" for \
-    mv"exa* -> exa" sbin"bin/exa" ogham/exa \
-    mv"fd* -> fd" sbin"fd/fd" @sharkdp/fd
+zinit as"program" lucid from"gh-r" for \
+    mv"exa* -> exa" pick"bin/exa" ogham/exa \
+    mv"fd* -> fd" pick"fd/fd" @sharkdp/fd
 
 # fzf loading and options
-zplugin pack"bgn-binary+keys" for fzf
+zinit pack"bgn-binary+keys" for fzf
 FZF_COMPLETION_TRIGGER='~~'
 
 if type "fd" >> /dev/null; then
