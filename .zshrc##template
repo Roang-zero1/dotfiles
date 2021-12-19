@@ -57,9 +57,8 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
   "zsh-users/zsh-completions" \
   "greymd/docker-zsh-completion" \
+  g-plane/zsh-yarn-autocompletions \
   is-snippet ~/.zsh/completion.zsh
-zinit ice atload"zpcdreplay" atclone'./zplug.zsh'
-zinit light g-plane/zsh-yarn-autocompletions
 
 zinit light "chrissicool/zsh-256color"
 
