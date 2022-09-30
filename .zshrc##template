@@ -128,6 +128,10 @@ if [ -d "/usr/local/go" ]; then
   path+=($GOPATH/bin)
 fi
 
+{% if yadm.distro == "alpine" %}
+alias poweroff='doas /sbin/poweroff'
+{% endif %}
+
 {% if yadm.hostname == "canopus.uberspace.de" %}
 path=($HOME/.toast/armed/bin/zsh $path)
 path+=(/package/host/localhost/nodejs-5/bin $path)
