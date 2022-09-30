@@ -1,5 +1,7 @@
 source ~/.zinit/bin/zinit.zsh
 
+zinit light zdharma-continuum/zinit-annex-patch-dl
+
 zinit light-mode for \
   zdharma-continuum/zinit-annex-bin-gem-node
 
