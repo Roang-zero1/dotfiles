@@ -8,9 +8,6 @@ zinit light zdharma-continuum/zinit-annex-patch-dl
 zinit light-mode for \
   zdharma-continuum/zinit-annex-bin-gem-node
 
-# Better directory listings
-zinit light "supercrabtree/k"
-
 zinit ice lucid
 zinit snippet OMZP::common-aliases
 
