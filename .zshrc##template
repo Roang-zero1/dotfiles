@@ -21,11 +21,6 @@ zinit wait lucid for \
   OMZP::git-extras \
   OMZP::npm
 
-{% if yadm.class == "work" %}
-zinit ice wait lucid
-zinit snippet OMZP::django
-{% endif %}
-
 ZSH_ALIAS_FINDER_AUTOMATIC=true
 
 # Install fd from github
