@@ -44,9 +44,6 @@ fi
 
 zinit light "Aloxaf/fzf-tab"
 
-
-zinit ice pick"init.sh"
-
 zinit light "zlsun/solarized-man"
 
 # Improved commandline interactivity
