@@ -12,7 +12,6 @@ zinit ice lucid
 zinit snippet OMZP::common-aliases
 
 zinit wait lucid for \
-  OMZP::alias-finder \
   OMZP::extract \
   OMZP::git \
   OMZP::git-extras \
