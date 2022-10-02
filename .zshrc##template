@@ -13,8 +13,6 @@ zinit snippet OMZP::common-aliases
 
 zinit wait lucid for \
   OMZP::extract \
-  OMZP::git \
-  OMZP::git-extras \
   OMZP::npm
 
 ZSH_ALIAS_FINDER_AUTOMATIC=true
@@ -65,6 +63,12 @@ zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
         pyenv/pyenv
 
 zinit light "chrissicool/zsh-256color"
+
+# Improvements for git
+zinit ice atload"path+=( \$PWD/bin )"
+zinit load wfxr/forgit
+zinit ice as"command" from"gh-r" mv"delta* -> delta" pick"delta/delta"
+zinit light dandavison/delta
 
 zinit ice pick"async.zsh"
 zinit light "mafredri/zsh-async"

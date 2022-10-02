@@ -78,6 +78,9 @@ alias lc='lt -U'                                  # Lists sorted by date, most r
 alias lu='lt -u'                                  # Lists sorted by date, most recent last, shows access time.
 alias sl='ls'                                     # I often screw this up.
 
+# git
+alias gst='git status'
+
 alias gitkraken='gitkraken --disable-gpu'
 
 # npm
