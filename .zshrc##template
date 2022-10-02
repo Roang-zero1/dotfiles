@@ -73,6 +73,8 @@ zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
     atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" for \
         pyenv/pyenv
 
+zinit pick"misc/quitcd/quitcd.bash_zsh" sbin make"O_NERD=1" light-mode for jarun/nnn
+
 zinit light "chrissicool/zsh-256color"
 
 # Improvements for git
