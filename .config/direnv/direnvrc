@@ -1,0 +1,49 @@
+layout_poetry() {
+  if [[ ! -f pyproject.toml ]]; then
+    log_error 'No pyproject.toml found. Use `poetry new` or `poetry init` to create one first.'
+    exit 2
+  fi
+
+  export VIRTUAL_ENV=$(poetry env info --path 2>/dev/null)
+
+  # create venv if it doesn't exist
+  if [ $? -ne 0 ] || [[ ! -d $VIRTUAL_ENV ]]; then
+    if [[ ! -z "$PYENV_VERSION" ]]; then
+      log_status "Using pyenv version $PYENV_VERSION"
+      eval "$(pyenv init -)"
+      pyenv shell $(pyenv version-name)
+      poetry env use $(pyenv which python)
+    fi
+    if ! which python >/dev/null; then
+      log_error "Local python interpreter not found, check path"
+      exit 2
+    fi
+    poetry run true
+    export VIRTUAL_ENV=$(poetry env info --path)
+  fi
+
+  export POETRY_ACTIVE=1
+  log_status "Avtivating poetry environment"
+  PATH_add "$VIRTUAL_ENV/bin"
+}
+
+layout_pyenvlocal() {
+  unset PYENV_VERSION
+  # Because each python version is prepended to the PATH, add them in reverse order
+  local python_version
+  if ! python_version=$(pyenv version-name 2>&1); then
+    log_error $python_version
+    return 1
+  fi
+
+  local pyenv_python
+  pyenv_python=$(pyenv root)/versions/${python_version}/bin/python
+  if [[ -x "$pyenv_python" ]]; then
+    PYENV_VERSION=${python_version}
+  else
+    log_error "pyenv: version '$python_version' not installed"
+    return 1
+  fi
+
+  export PYENV_VERSION
+}

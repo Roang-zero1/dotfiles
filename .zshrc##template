@@ -54,6 +54,17 @@ zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
   g-plane/zsh-yarn-autocompletions \
   is-snippet ~/.zsh/completion.zsh
 
+# Install direnv from GitHub
+zinit wait lucid from"gh-r" as"program" mv"direnv* -> direnv" \
+    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
+    pick"direnv" src="zhook.zsh" for \
+        direnv/direnv
+
+zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
+    atclone'PYENV_ROOT="$PWD" ./libexec/pyenv init - > zpyenv.zsh' \
+    atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" for \
+        pyenv/pyenv
+
 zinit light "chrissicool/zsh-256color"
 
 zinit ice pick"async.zsh"
@@ -105,10 +116,9 @@ export EDITOR='vim'
 [ -d "$HOME/.yarn/bin" ] && path+=($HOME/.yarn/bin) || true
 [ -d "$HOME/.local/bin" ] && path+=($HOME/.local/bin) || true
 [ -d "$HOME/.poetry/bin" ] && path+=($HOME/.poetry/bin) || true
-if [ -d "$HOME/.pyenv/bin" ]; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  path+=($HOME/.pyenv/bin)
-  eval "$($HOME/.pyenv/bin/pyenv init -)"
+if [[ -n "$commands[pyenv]" ]]; then
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
   if [ -d "$(pyenv root)/plugins/pyenv-virtualenv" ]; then
     eval "$(pyenv virtualenv-init -)"
   fi
