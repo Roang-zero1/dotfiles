@@ -1,0 +1,26 @@
+{
+  "segments": {
+    "right": [
+      {
+        "function": "powerline.segments.common.env.user"
+      },
+      {
+        "function": "powerline.segments.common.net.hostname"
+      },
+      {
+        "function": "powerline.segments.common.time.date",
+        "args": {
+          "format": "%y-%m-%d"
+        }
+      },
+      {
+        "function": "powerline.segments.common.time.date",
+        "name": "time",
+        "args": {
+          "format": "%H:%M",
+          "istime": true
+        }
+      }
+    ]
+  }
+}
