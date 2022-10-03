@@ -73,7 +73,12 @@ zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
     atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" for \
         pyenv/pyenv
 
-zinit pick"misc/quitcd/quitcd.bash_zsh" sbin make"O_NERD=1" light-mode for jarun/nnn
+zinit wait lucid \
+  pick"misc/quitcd/quitcd.bash_zsh" \
+  sbin make"O_NERD=1 O_GITSTATUS=1 O_NAMEFIRST=1" \
+  atpull"%atclone" atclone"cd ${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins && curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh" \
+  for \
+  jarun/nnn
 
 zinit light "chrissicool/zsh-256color"
 
@@ -128,6 +133,9 @@ typeset -U path
 
 # Export for tmux
 export EDITOR='vim'
+
+# Load nnn config
+[ -f "$HOME/.config/nnn/env.zsh" ] && source "$HOME/.config/nnn/env.zsh" || true
 
 [ -d "$HOME/.yarn/bin" ] && path+=($HOME/.yarn/bin) || true
 [ -d "$HOME/.local/bin" ] && path+=($HOME/.local/bin) || true
