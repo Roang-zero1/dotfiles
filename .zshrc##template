@@ -73,6 +73,9 @@ zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
     atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" for \
         pyenv/pyenv
 
+zinit ice as"command" sbin"code_connect.py -> code"
+zinit snippet https://raw.githubusercontent.com/chvolkmann/code-connect/main/bin/code_connect.py
+
 zinit wait lucid \
   pick"misc/quitcd/quitcd.bash_zsh" \
   sbin make"O_NERD=1 O_GITSTATUS=1 O_NAMEFIRST=1" \
