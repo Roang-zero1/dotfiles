@@ -63,9 +63,9 @@ zinit ice as"completion"
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
 # Install direnv from GitHub
-zinit wait lucid from"gh-r" as"program" mv"direnv* -> direnv" \
+zinit wait lucid from"gh-r" as"null" mv"direnv* -> direnv" \
     atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
-    pick"direnv" src="zhook.zsh" for \
+    sbin"direnv" src="zhook.zsh" for \
         direnv/direnv
 
 zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
@@ -73,7 +73,7 @@ zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
     atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" for \
         pyenv/pyenv
 
-zinit ice as"command" sbin"code_connect.py -> code"
+zinit ice as"none" sbin"code_connect.py -> code" nocompile
 zinit snippet https://raw.githubusercontent.com/chvolkmann/code-connect/main/bin/code_connect.py
 
 zinit wait lucid \
@@ -90,15 +90,15 @@ zinit light "chrissicool/zsh-256color"
 
 # Improvements for git
 zinit ice atload"path+=( \$PWD/bin )"
-zinit load wfxr/forgit
-zinit ice as"command" from"gh-r" mv"delta* -> delta" pick"delta/delta"
+zinit light wfxr/forgit
+zinit ice as"null" from"gh-r" mv"delta* -> delta" sbin"delta/delta -> delta"
 zinit light dandavison/delta
 
 zinit ice pick"async.zsh"
 zinit light "mafredri/zsh-async"
 
 zinit ice depth"1" # git clone depth
-zinit load "romkatv/powerlevel10k"
+zinit light "romkatv/powerlevel10k"
 
 zinit wait lucid for \
   is-snippet  ~/.zsh/aliases.zsh \
