@@ -62,6 +62,10 @@ zinit wait lucid atload"zicompinit; zicdreplay" for \
 zinit ice as"completion"
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
+# Compatibility fix direnv <> tmux
+if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
+  unset ${(Mk)parameters:#DIRENV*}  # unset env vars starting with DIRENV_
+fi
 # Install direnv from GitHub
 zinit wait lucid from"gh-r" as"null" mv"direnv* -> direnv" \
     atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
@@ -173,3 +177,4 @@ path+=(~/src/go/bin)
 export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man>
 export GOPATH=~/src/go
 {% endif %}
+
