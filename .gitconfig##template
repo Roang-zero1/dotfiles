@@ -8,11 +8,15 @@
   path=~/.gitconfig.local
 [user]
   name = Lucas Brandstaetter
+{% if yadm.user == "limes" %}
+  email = lbr@limessecurity.com
+{% else %}
 {% if yadm.user == "lbr" %}
   email = lbr@limessecurity.com
 {% else %}
   email = lucas@brandstaetter.tech
 {% endif %}
+
 [push]
   default = simple
 [filter "lfs"]
@@ -45,3 +49,4 @@
 
 [delta]
     navigate = true
+    line-numbers = true
