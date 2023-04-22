@@ -98,18 +98,14 @@ zinit light wfxr/forgit
 zinit ice as"null" from"gh-r" mv"delta* -> delta" sbin"delta/delta -> delta"
 zinit light dandavison/delta
 
-zinit ice pick"async.zsh"
-zinit light "mafredri/zsh-async"
-
-zinit ice depth"1" # git clone depth
-zinit light "romkatv/powerlevel10k"
+zinit ice as"command" from"gh-r" \
+          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+          atpull"%atclone" src"init.zsh"
+zinit light starship/starship
 
 zinit wait lucid for \
   is-snippet  ~/.zsh/aliases.zsh \
   is-snippet  ~/.zsh/bindkeys.zsh
-
-# Load Powerlevel 10k config
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 unalias fd 2>/dev/null
 
