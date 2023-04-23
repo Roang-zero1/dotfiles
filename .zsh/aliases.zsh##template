@@ -90,3 +90,7 @@ xo-project () {
   ag --js -l --ignore $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }') | xargs xo
 }
 
+{% if yadm.distro == "alpine" %}
+alias poweroff='doas /sbin/poweroff'
+{% endif %}
+
