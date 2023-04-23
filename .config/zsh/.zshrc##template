@@ -86,8 +86,9 @@ zinit ice as"command" from"gh-r" \
 zinit light starship/starship
 
 zinit wait lucid for \
-  is-snippet  "${XDG_CONFIG_HOME}/zsh/aliases.zsh" \
-  is-snippet  "${XDG_CONFIG_HOME}/zsh/bindkeys.zsh"
+  is-snippet "${XDG_CONFIG_HOME}/zsh/aliases.zsh" \
+  is-snippet "${XDG_CONFIG_HOME}/zsh/bindkeys.zsh" \
+  is-snippet "${XDG_CONFIG_HOME}/zsh/create_dirs.zsh"
 
 # shellcheck disable=2154
 if (( $+commands[carapace] )) ; then
@@ -115,7 +116,7 @@ zinit wait lucid for \
 unalias fd 2>/dev/null
 
 # Update history settings to provide larger shared history
-HISTFILE=~/.zhistory
+HISTFILE="${XDG_DATA_HOME}/zsh/history"
 HISTSIZE=SAVEHIST=5000
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
