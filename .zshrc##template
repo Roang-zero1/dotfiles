@@ -8,7 +8,7 @@ zinit light zdharma-continuum/zinit-annex-patch-dl
 zinit light-mode for \
   zdharma-continuum/zinit-annex-bin-gem-node
 
-zinit ice lucid
+zinit ice wait lucid
 zinit snippet OMZP::common-aliases
 
 zinit wait lucid for \
@@ -53,10 +53,13 @@ zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
     atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" for \
         pyenv/pyenv
 
+zinit ice wait"1" lucid as-id"pyenv"
+zinit snippet $HOME/.zsh/pyenv.zsh
+
 zinit ice as"none" sbin"code_connect.py -> code" nocompile
 zinit snippet https://raw.githubusercontent.com/chvolkmann/code-connect/main/bin/code_connect.py
 
-zinit wait lucid \
+zinit wait"1" lucid \
   pick"misc/quitcd/quitcd.bash_zsh" \
   sbin make"O_NERD=1 O_GITSTATUS=1 O_NAMEFIRST=1" \
   atpull"%atclone" atclone"cd ${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins && curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh" \
@@ -69,9 +72,9 @@ zinit load zdharma-continuum/null
 zinit light "chrissicool/zsh-256color"
 
 # Improvements for git
-zinit ice atload"path+=( \$PWD/bin )"
+zinit ice wait"1" lucid atload"path+=( \$PWD/bin )"
 zinit light wfxr/forgit
-zinit ice as"null" from"gh-r" mv"delta* -> delta" sbin"delta/delta -> delta"
+zinit ice wait"1" lucid as"null" from"gh-r" mv"delta* -> delta" sbin"delta/delta -> delta"
 zinit light dandavison/delta
 
 zinit ice as"command" from"gh-r" \
@@ -138,13 +141,6 @@ export EDITOR='vim'
 [ -d "$HOME/.yarn/bin" ] && path+=($HOME/.yarn/bin) || true
 [ -d "$HOME/.local/bin" ] && path+=($HOME/.local/bin) || true
 [ -d "$HOME/.poetry/bin" ] && path+=($HOME/.poetry/bin) || true
-if [[ -n "$commands[pyenv]" ]]; then
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
-  if [ -d "$(pyenv root)/plugins/pyenv-virtualenv" ]; then
-    eval "$(pyenv virtualenv-init -)"
-  fi
-fi
 if [ -d "/usr/local/go" ]; then
   export GOROOT=/usr/local/go
   export GOPATH=$HOME/go
