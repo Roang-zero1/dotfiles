@@ -152,14 +152,3 @@ fi
 {% if yadm.distro == "alpine" %}
 alias poweroff='doas /sbin/poweroff'
 {% endif %}
-
-{% if yadm.hostname == "canopus.uberspace.de" %}
-path=($HOME/.toast/armed/bin/zsh $path)
-path+=(/package/host/localhost/nodejs-5/bin $path)
-path+=($HOME/.composer/vendor/bin)
-path+=(~/.gem/ruby/2.2.0/bin)
-path+=(~/src/go/bin)
-export MANPATH=$HOME/.toast/armed/share/man:/usr/local/share/man:/usr/share/man/overrides:/usr/share/man/en:/usr/share/man:/var/qmail/man>
-export GOPATH=~/src/go
-{% endif %}
-
