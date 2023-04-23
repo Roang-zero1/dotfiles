@@ -132,10 +132,15 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_USE_ASYNC=True
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-zinit pack for dircolors-material
+zinit ice atclone"dircolors -b .dircolors > clrs.zsh" \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+    atload'zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}'
+zinit light dracula/dircolors
 
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:*' query-string ''
 
 typeset -U path
 
