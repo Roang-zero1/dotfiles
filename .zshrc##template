@@ -12,14 +12,9 @@ zinit ice lucid
 zinit snippet OMZP::common-aliases
 
 zinit wait lucid for \
-  OMZP::extract \
-  OMZP::npm
+  OMZP::extract
 
 ZSH_ALIAS_FINDER_AUTOMATIC=true
-
-zinit lucid wait from"gh-r" as"completion" for \
-    id-as"exa-c" mv"completions/exa.zsh -> _exa" pick"_exa" ogham/exa \
-    id-as"bat-c" mv"**/autocomplete/bat.zsh -> _bat" pick"_bat"  @sharkdp/bat
 
 # Install fd from github
 zinit wait"1" lucid from"gh-r" as"null" for \
@@ -38,29 +33,10 @@ if type "fd" >> /dev/null; then
   }
 fi
 
-zinit lucid wait for \
-  id-as"fzf-extra" \
-  atclone"mv shell/completion.zsh _fzf" \
-  pick"shell/completion.zsh" \
-  src"shell/key-bindings.zsh" \
-  junegunn/fzf
-
-
-zinit light "Aloxaf/fzf-tab"
+zinit ice wait lucid
+zinit snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
 
 zinit light "zlsun/solarized-man"
-
-zinit wait lucid atload"zicompinit; zicdreplay" for \
-  zdharma-continuum/fast-syntax-highlighting \
-  blockf \
-  zsh-users/zsh-completions \
-  atload"zpcdreplay" atclone'./zplug.zsh' \
-  g-plane/zsh-yarn-autocompletions \
-  atload"!_zsh_autosuggest_start" \
-  zsh-users/zsh-autosuggestions
-
-zinit ice as"completion"
-zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
 # Compatibility fix direnv <> tmux
 if [ -n "$TMUX" ] && [ -n "$DIRENV_DIR" ]; then
@@ -107,12 +83,28 @@ zinit wait lucid for \
   is-snippet  ~/.zsh/aliases.zsh \
   is-snippet  ~/.zsh/bindkeys.zsh
 
-unalias fd 2>/dev/null
 
-# Get hostname if environment variable is empty
-if [ -z "$HOSTNAME" ]; then
-  HOSTNAME=$(hostname)
+if (( $+commands[carapace] )) ; then
+  zinit ice wait lucid atclone"carapace _carapace > carapace-generated.zsh" nocompile pick"carapace-generated.zsh" id-as"carapace"
+  zinit load zdharma-continuum/null
+else
+  if [[ ! -e "$HOME/.zsh/IGNORE_MISSING_CARAPACE" ]]; then
+    echo "\033[0;31m'carapace' binary is missing, install it (https://github.com/rsteube/carapace-bin), or silence this warning with \`touch ~/.zsh/IGNORE_MISSING_CARAPACE\`"
+  fi
 fi
+
+zinit wait lucid for \
+  light-mode "Aloxaf/fzf-tab" \
+  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+  blockf \
+    zsh-users/zsh-completions \
+  atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions\
+  as-id"yadm" as"completion" \
+    is-snippet https://raw.githubusercontent.com/TheLocehiliosan/yadm/master/completion/zsh/_yadm
+
+unalias fd 2>/dev/null
 
 # Update history settings to provide larger shared history
 HISTFILE=~/.zhistory
