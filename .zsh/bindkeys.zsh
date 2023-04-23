@@ -2,13 +2,6 @@
 
 bindkey -e
 
-{% if yadm.hostname == "lbr-local-dev" %}
-# Fix home, end, insert and delete keys
-bindkey "\e[1~" beginning-of-line
-bindkey "\e[4~" end-of-line
-bindkey "\e[3~" delete-char
-bindkey "\e[2~" overwrite-mode
-{% else %}
 bindkey "\e[2~" overwrite-mode
 bindkey "\e[3~" delete-char
 
@@ -21,7 +14,6 @@ else
   bindkey "^[[H" beginning-of-line
   bindkey "^[[F" end-of-line
 fi
-{% endif%}
 
 bindkey "^[[5~" beginning-of-history #PageUp
 bindkey "^[[6~" end-of-history #PageDown
@@ -51,7 +43,3 @@ bindkey -s "^[Ol" "+"
 bindkey -s "^[OS" "-"
 bindkey -s "^[OR" "*"
 bindkey -s "^[OQ" "/"
-
-## Plugin Keybindings
-
-bindkey '^T' toggle-fzf-tab
