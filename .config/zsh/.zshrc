@@ -51,13 +51,13 @@ zinit wait lucid from"gh-r" as"null" mv"direnv* -> direnv" \
     sbin"direnv" src="zhook.zsh" for \
         direnv/direnv
 
-zinit wait lucid as'null' atinit'export PYENV_ROOT="$PWD"' \
-    atclone'PYENV_ROOT="$PWD" ./libexec/pyenv init - > zpyenv.zsh' \
-    atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" for \
-        pyenv/pyenv
-
-zinit ice wait"1" lucid as-id"pyenv"
-zinit snippet "${XDG_CONFIG_HOME}/zsh/pyenv.zsh"
+zinit wait lucid for \
+  as'null' atinit'export PYENV_ROOT="$PWD"' \
+  atclone'PYENV_ROOT="$PWD" ./libexec/pyenv init - > zpyenv.zsh' \
+  atpull"%atclone" src"zpyenv.zsh" nocompile'!' sbin"bin/pyenv" \
+    pyenv/pyenv \
+  as-id"pyenv" link \
+    is-snippet "${XDG_CONFIG_HOME}/zsh/pyenv.zsh"
 
 zinit ice as"none" sbin"code_connect.py -> code" nocompile
 zinit snippet https://raw.githubusercontent.com/chvolkmann/code-connect/main/bin/code_connect.py
@@ -67,7 +67,7 @@ zinit wait"1" lucid for\
   sbin"nnn" make"O_NERD=1 O_GITSTATUS=1 O_NAMEFIRST=1" \
   atpull"%atclone" atclone"cd ${XDG_CONFIG_HOME}/nnn/plugins && curl -Ls https://raw.githubusercontent.com/jarun/nnn/master/plugins/getplugs | sh" \
   jarun/nnn\
-  is-snippet "${XDG_CONFIG_HOME}/nnn/env.zsh"
+  is-snippet link "${XDG_CONFIG_HOME}/nnn/env.zsh"
 
 zinit ice pip'git+https://github.com/powerline/powerline.git@develop' as"none" id-as"powerline" sbin"venv/bin/powerline" sbin"venv/bin/powerline-config" sbin"venv/bin/powerline-daemon" sbin"venv/bin/powerline-render" sbin"venv/bin/powerline-lint"
 zinit load zdharma-continuum/null
@@ -85,10 +85,10 @@ zinit ice as"command" from"gh-r" \
           atpull"%atclone" src"init.zsh"
 zinit light starship/starship
 
-zinit wait lucid for \
-  is-snippet "${XDG_CONFIG_HOME}/zsh/aliases.zsh" \
-  is-snippet "${XDG_CONFIG_HOME}/zsh/bindkeys.zsh" \
-  is-snippet "${XDG_CONFIG_HOME}/zsh/create_dirs.zsh"
+zinit wait lucid nocompile link for  \
+  is-snippet "${XDG_CONFIG_HOME}/zsh/config/aliases.zsh" \
+  is-snippet "${XDG_CONFIG_HOME}/zsh/config/bindkeys.zsh" \
+  is-snippet "${XDG_CONFIG_HOME}/zsh/config/create_dirs.zsh"
 
 # shellcheck disable=2154
 if (( $+commands[carapace] )) ; then
