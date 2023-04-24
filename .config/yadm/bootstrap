@@ -1,15 +1,30 @@
-#!/bin/bash
-
+#!/bin/sh
+# shellcheck disable=SC3045
 # Because Git submodule commands cannot operate without a work tree, they must
 # be run from within $HOME (assuming this is the root of your dotfiles)
-cd "$HOME"
+cd "$HOME" || exit
 
 echo "Init submodules"
 yadm submodule update --recursive --init
 
-yadm decrypt
+while true; do
+    read -rp "Decrypt yadm secrets? " yn
+    case $yn in
+        [Yy]* ) yadm decrypt; break;;
+        [Nn]* ) break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+while true; do
+    read -rp "Tag this machine with the work class? " yn
+    case $yn in
+        [Yy]* ) yadm config --add local.class work; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 
 yadm alt
 
-zinit self-update
-zinit update
+echo "Setup successful, restart zsh to apply settings!"

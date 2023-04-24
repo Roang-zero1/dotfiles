@@ -8,10 +8,7 @@
   path=~/.gitconfig.local
 [user]
   name = Lucas Brandstaetter
-{% if yadm.user == "limes" %}
-  email = lbr@limessecurity.com
-{% else %}
-{% if yadm.user == "lbr" %}
+{% if yadm.class == "work" %}
   email = lbr@limessecurity.com
 {% else %}
   email = lucas@brandstaetter.tech
@@ -49,4 +46,4 @@
 
 [delta]
     navigate = true
-    line-numbers = true
+    line-umbers = true
