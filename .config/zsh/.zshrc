@@ -64,6 +64,10 @@ zinit wait lucid for \
   from"gh-r" sbin"lazydocker" nocompile if'[[ -n "$commands[docker]" ]]'\
   jesseduffield/lazydocker
 
+zinit for \
+    from"gh-r" sbin"nvim" nocompile\
+    neovim/neovim
+
 zinit ice as"none" sbin"code_connect.py -> code" nocompile
 zinit snippet https://raw.githubusercontent.com/chvolkmann/code-connect/main/bin/code_connect.py
 

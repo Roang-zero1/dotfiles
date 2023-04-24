@@ -31,7 +31,12 @@ alias cp="${aliases[cp]:-cp} -i"
 alias ln="${aliases[ln]:-ln} -i"
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
 alias mv="${aliases[mv]:-mv} -i"
-alias vi='vim'
+if (( $+commands[nvim] )) ; then
+  alias vi='nvim'
+  alias vim='nvim'
+else
+  alias vi='vim'
+fi
 
 # Grep
 export GREP_COLOR='37;45'           # BSD.
