@@ -81,6 +81,8 @@ alias cat='bat'
 alias nnn='nnn -c'
 alias n='n -c'
 
+alias lzd='lazydocker'
+
 {% if yadm.distro == "alpine" %}
 alias poweroff='doas /sbin/poweroff'
 {% endif %}

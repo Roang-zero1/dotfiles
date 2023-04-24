@@ -59,6 +59,11 @@ zinit wait lucid for \
   as-id"pyenv" link \
     is-snippet "${XDG_CONFIG_HOME}/zsh/pyenv.zsh"
 
+
+zinit wait lucid for \
+  from"gh-r" sbin"lazydocker" nocompile if'[[ -n "$commands[docker]" ]]'\
+  jesseduffield/lazydocker
+
 zinit ice as"none" sbin"code_connect.py -> code" nocompile
 zinit snippet https://raw.githubusercontent.com/chvolkmann/code-connect/main/bin/code_connect.py
 
