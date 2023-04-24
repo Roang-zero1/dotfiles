@@ -2,25 +2,16 @@
 # Use with caution
 #
 
-# ssh for pkcs#11
-alias ssh-add-pkcs11='ssh-add -s /usr/lib/x86_64-linux-gnu/opensc-pkcs11.so'
-
-# git aliases
-alias gsl='git commit --amend -S --no-edit'
-
 # Disable correction.
 alias ack='nocorrect ack'
 alias cp='nocorrect cp'
-alias ebuild='nocorrect ebuild'
 alias gcc='nocorrect gcc'
 alias gist='nocorrect gist'
 alias grep='nocorrect grep'
-alias heroku='nocorrect heroku'
 alias ln='nocorrect ln'
 alias man='nocorrect man'
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
-alias mysql='nocorrect mysql'
 alias rm='nocorrect rm'
 
 # Disable globbing.
@@ -40,7 +31,6 @@ alias cp="${aliases[cp]:-cp} -i"
 alias ln="${aliases[ln]:-ln} -i"
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
 alias mv="${aliases[mv]:-mv} -i"
-alias rm="${aliases[rm]:-rm} -i"
 alias vi='vim'
 
 # Grep
@@ -81,14 +71,15 @@ alias sl='ls'                                     # I often screw this up.
 # git
 alias gst='git status'
 
-alias gitkraken='gitkraken --disable-gpu'
-
-# npm
-alias npm-exec='PATH=$(npm bin):$PATH'
-
 xo-project () {
   ag --js -l --ignore $(git config --file .gitmodules --get-regexp path | awk '{ print $2 }') | xargs xo
 }
+
+# Tool specific aliases
+alias cat='bat'
+## Tell nnn it's running in a cli
+alias nnn='nnn -c'
+alias n='n -c'
 
 {% if yadm.distro == "alpine" %}
 alias poweroff='doas /sbin/poweroff'
