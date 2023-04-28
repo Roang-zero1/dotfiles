@@ -81,6 +81,9 @@ zinit wait"1" lucid for\
 zinit ice wait lucid pip'git+https://github.com/powerline/powerline.git@develop' as"none" id-as"powerline" sbin"venv/bin/powerline" sbin"venv/bin/powerline-config" sbin"venv/bin/powerline-daemon" sbin"venv/bin/powerline-render" sbin"venv/bin/powerline-lint"
 zinit load zdharma-continuum/null
 
+zinit ice wait lucid pip'gitline' as"none" id-as"powerline" sbin"venv/bin/gitlint"
+zinit load zdharma-continuum/null
+
 zinit light "chrissicool/zsh-256color"
 
 # Improvements for git
