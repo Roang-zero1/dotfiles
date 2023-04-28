@@ -161,6 +161,7 @@ typeset -U path
 # Export for tmux
 export EDITOR='vim'
 
+[[ -d "${HOME}/.yarn/bin" ]] && path+=("${HOME}/.yarn/bin")
 if [[ -d "/usr/local/go" ]]; then
   export GOROOT=/usr/local/go
   export GOPATH="${HOME}/go"
