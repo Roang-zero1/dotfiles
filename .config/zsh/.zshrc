@@ -152,6 +152,10 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 zstyle ':fzf-tab:*' query-string ''
 
+# Make fzf searches more usefull
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git --exclude node_modules"
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+
 typeset -U path
 
 # Export for tmux
