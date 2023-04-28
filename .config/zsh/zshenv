@@ -16,6 +16,3 @@ export YADM_DIR="${XDG_DATA_HOME}/yadm"
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 export ZINIT_HOME="${XDG_DATA_HOME}/zinit"
 
-# Skip the unncessary Ubuntu global compinit
-skip_global_compinit=1
-
