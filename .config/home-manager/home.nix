@@ -75,4 +75,32 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.exa.enable = true;
+
+  programs.nixvim = {
+    enable = true;
+    extraPlugins = [ pkgs.vimPlugins.dracula-nvim ];
+
+    globals = { mapleader = " "; };
+
+    options = {
+      relativenumber = true; # Show relative line numbers
+      mouse = "vn";
+      splitright = true;
+      splitbelow = true;
+      expandtab = true;
+      tabstop = 2;
+      ignorecase = true;
+      smartcase = true;
+      signcolumn = "yes";
+      updatetime = 750;
+      completeopt = [ "menuone" "noinsert" "noselect" ];
+    };
+
+    colorscheme = "dracula";
+    plugins.lualine = {
+      enable = true;
+
+      iconsEnabled = true;
+    };
+  };
 }
