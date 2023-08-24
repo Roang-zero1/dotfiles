@@ -52,6 +52,12 @@
     # '';
   };
 
+  home.shellAliases = {
+    ls = "exa";
+    l = "exa -1a"; # Lists in one column, hidden files.
+    ll = "exa -lb --git --time-style=long-iso"; # Lists in a list
+  };
+
   # You can also manage environment variables but you will have to manually
   # source
   #
@@ -68,4 +74,5 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+  programs.exa.enable = true;
 }

@@ -20,7 +20,6 @@ zinit wait lucid for \
 zinit wait"1" lucid from"gh-r" as"null" for \
     mv"fd* -> fd" sbin"**/fd" @sharkdp/fd \
     sbin"**/bat"              @sharkdp/bat \
-    sbin"bin/exa* -> exa"     ogham/exa \
     sbin"fzf"                 junegunn/fzf \
     sbin"shellcheck"          koalaman/shellcheck
 
