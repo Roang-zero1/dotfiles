@@ -71,11 +71,18 @@
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
+    MANPAGER = "sh -c 'col -b | bat -l man -p'";
     # EDITOR = "emacs";
   };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.bat = {
+    enable = true;
+
+    config.theme = "Dracula";
+  };
   programs.exa.enable = true;
 
   programs.nixvim = {

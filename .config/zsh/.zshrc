@@ -18,7 +18,6 @@ zinit wait lucid for \
 
 # Install fd from github
 zinit wait"1" lucid from"gh-r" as"null" for \
-    sbin"**/bat"              @sharkdp/bat \
     sbin"fzf"                 junegunn/fzf
 
 
@@ -34,8 +33,6 @@ fi
 
 zinit ice wait lucid
 zinit snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
-
-zinit light "zlsun/solarized-man"
 
 # Compatibility fix direnv <> tmux
 if [[ -n "${TMUX}" ]] && [[ -n "${DIRENV_DIR}" ]]; then
