@@ -39,11 +39,6 @@ if [[ -n "${TMUX}" ]] && [[ -n "${DIRENV_DIR}" ]]; then
   # shellcheck disable=2086
   unset ${(Mk)parameters:#DIRENV*}  # unset env vars starting with DIRENV_
 fi
-# Install direnv from GitHub
-zinit wait lucid from"gh-r" as"null" mv"direnv* -> direnv" \
-    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
-    sbin"direnv" src="zhook.zsh" for \
-        direnv/direnv
 
 zinit wait lucid for \
   as'null' atinit'export PYENV_ROOT="$PWD"' \

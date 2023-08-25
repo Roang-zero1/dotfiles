@@ -83,6 +83,12 @@
 
     config.theme = "Dracula";
   };
+  programs.direnv = {
+    enable = true;
+
+    nix-direnv.enable = true;
+    stdlib = (builtins.readFile ./direnv/direnvrc);
+  };
   programs.exa.enable = true;
 
   programs.nixvim = {
