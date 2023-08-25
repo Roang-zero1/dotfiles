@@ -18,7 +18,6 @@ zinit wait lucid for \
 
 # Install fd from github
 zinit wait"1" lucid from"gh-r" as"null" for \
-    mv"fd* -> fd" sbin"**/fd" @sharkdp/fd \
     sbin"**/bat"              @sharkdp/bat \
     sbin"fzf"                 junegunn/fzf \
     sbin"shellcheck"          koalaman/shellcheck
