@@ -19,8 +19,7 @@ zinit wait lucid for \
 # Install fd from github
 zinit wait"1" lucid from"gh-r" as"null" for \
     sbin"**/bat"              @sharkdp/bat \
-    sbin"fzf"                 junegunn/fzf \
-    sbin"shellcheck"          koalaman/shellcheck
+    sbin"fzf"                 junegunn/fzf
 
 
 if type "fd" >> /dev/null; then
