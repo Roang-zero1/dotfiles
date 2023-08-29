@@ -1,6 +1,9 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  dracula-dircolors-repo,
+  ...
+}: {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "lucas";
@@ -34,9 +37,20 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    pkgs.alejandra
+    pkgs.bitwarden-cli
+    pkgs.carapace
+    pkgs.delta
     pkgs.fd
+    pkgs.gitlint
+    pkgs.glibc
+    pkgs.lazydocker
     pkgs.nixfmt
     pkgs.shellcheck
+    pkgs.zinit
+    pkgs.zsh-forgit
+    pkgs.nixd
+    pkgs.curl
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -54,11 +68,8 @@
     # '';
   };
 
-  home.shellAliases = {
-    ls = "exa";
-    l = "exa -1a"; # Lists in one column, hidden files.
-    ll = "exa -lb --git --time-style=long-iso"; # Lists in a list
-  };
+  home.shellAliases = import ./aliases.nix;
+  programs.zsh.shellAliases = import ./zsh/aliases.nix;
 
   # You can also manage environment variables but you will have to manually
   # source
@@ -72,8 +83,23 @@
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     MANPAGER = "sh -c 'col -b | bat -l man -p'";
-    # EDITOR = "emacs";
+    COLORTERM = "truecolor";
+    GREP_COLOR = "4;38;5;235;48;5;4";
+    GREP_COLORS = "mt=4;38;5;235;48;5;4";
+    EDITOR = "vim";
+    IPYTHONDIR = "${config.xdg.dataHome}/ipython";
+    LESSHISTFILE = "${config.xdg.dataHome}/less/history";
+    PYTHONSTARTUP = "${config.xdg.dataHome}/python/startup.py";
+    PYLINTHOME = "${config.xdg.dataHome}/pylint";
+    PYLINTRC = "${config.xdg.dataHome}/pylint/pylintrc";
+    YADM_DIR = "${config.xdg.dataHome}/yadm";
+    ZDOTDIR = "${config.xdg.dataHome}/zsh";
+    ZINIT_HOME = "${config.xdg.dataHome}/zinit";
   };
+
+  # dircolors
+  home.file.".dir_colors".text =
+    builtins.readFile "${dracula-dircolors-repo}/.dircolors";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -87,15 +113,22 @@
     enable = true;
 
     nix-direnv.enable = true;
-    stdlib = (builtins.readFile ./direnv/direnvrc);
+    stdlib = builtins.readFile ./direnv/direnvrc;
   };
   programs.exa.enable = true;
+  programs.fzf = {
+    enable = true;
+    defaultCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
+    fileWidgetCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
+  };
 
   programs.nixvim = {
     enable = true;
-    extraPlugins = [ pkgs.vimPlugins.dracula-nvim ];
+    extraPlugins = [pkgs.vimPlugins.dracula-nvim];
 
-    globals = { mapleader = " "; };
+    globals = {mapleader = " ";};
+    viAlias = true;
+    vimAlias = true;
 
     options = {
       relativenumber = true; # Show relative line numbers
@@ -108,7 +141,7 @@
       smartcase = true;
       signcolumn = "yes";
       updatetime = 750;
-      completeopt = [ "menuone" "noinsert" "noselect" ];
+      completeopt = ["menuone" "noinsert" "noselect"];
     };
 
     colorscheme = "dracula";
@@ -117,5 +150,104 @@
 
       iconsEnabled = true;
     };
+  };
+
+  programs.nnn = {
+    enable = true;
+
+    package = pkgs.nnn.overrideAttrs (finalAttrs: previousAttrs: {
+      makeFlags = ["PREFIX=$(out)" "O_NERD=1" "O_GITSTATUS=1" "O_NAMEFIRST=1"];
+    });
+
+    plugins.src =
+      (pkgs.fetchFromGitHub {
+        owner = "jarun";
+        repo = "nnn";
+        rev = "v4.0";
+        sha256 = "sha256-Hpc8YaJeAzJoEi7aJ6DntH2VLkoR6ToP6tPYn3llR7k=";
+      })
+      + "/plugins";
+    plugins.mappings = {
+      p = "preview-tui";
+      d = "dups";
+      c = "diffs";
+      f = "fzopen";
+      s = "finder";
+      g = "-!git diff";
+      e = ''-!code "$nnn"'';
+    };
+  };
+  home.sessionVariables = {
+    NNN_FCOLORS = "C1E20402036033F7C6D6ABC4";
+    NNN_FIFO = "/tmp/nnn.fifo";
+    NNN_OPENER = "${config.xdg.dataHome}/nnn/plugins/nuke";
+  };
+
+  programs.pyenv.enable = true;
+  programs.starship = {enable = true;};
+  programs.zsh = {
+    enable = true;
+
+    dotDir = ".config/zsh";
+
+    # History settings
+    history = {
+      expireDuplicatesFirst = true;
+      extended = true;
+      ignoreAllDups = true;
+      path = "${config.xdg.dataHome}/zsh/history";
+      share = true;
+    };
+
+    plugins = [
+      {
+        name = "forgit";
+        src = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit";
+      }
+    ];
+    initExtraFirst = ''
+      source ${pkgs.zinit}/share/zinit/zinit.zsh
+    '';
+    initExtraBeforeCompInit = ''
+      eval $(${pkgs.coreutils}/bin/dircolors -b ~/.dir_colors)
+      source ${pkgs.nnn.src}/misc/quitcd/quitcd.bash_zsh
+
+      if type "fd" >> /dev/null; then
+        _fzf_compgen_path() {
+          fd --hidden --follow --exclude ".git" . "$1"
+        }
+
+        _fzf_compgen_dir() {
+          fd --type d --hidden --follow --exclude ".git" . "$1"
+        }
+      fi
+
+      zinit wait lucid for \
+        OMZP::extract \
+        OMZP::cp
+
+      source <(carapace chmod zsh)
+    '';
+    initExtra = ''
+      ${builtins.readFile ./zsh/bindkeys.zsh}
+      ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4,underline"
+      ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+      ZSH_AUTOSUGGEST_HISTORY_IGNORE="?(#c50,)"
+
+      zstyle ':completion:*:descriptions' format '[%d]'
+      zstyle ':fzf-tab:*' switch-group ',' '.'
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+      zstyle ':fzf-tab:*' query-string '''
+      zstyle ":completion:*" list-colors ''${(s.:.)LS_COLORS}
+    '';
+    completionInit = ''
+      zinit wait lucid for \
+          light-mode "Aloxaf/fzf-tab" \
+        atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+          zdharma-continuum/fast-syntax-highlighting \
+        atload"!_zsh_autosuggest_start" \
+          zsh-users/zsh-autosuggestions
+    '';
   };
 }
