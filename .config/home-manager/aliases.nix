@@ -1,8 +1,8 @@
 {
   # File listing aliases
-  ls = "exa";
-  l = "exa -1a"; # Lists in one column, hidden files.
-  ll = "exa -lb --git --time-style=long-iso"; # Lists in a list
+  ls = "eza";
+  l = "eza -1a"; # Lists in one column, hidden files.
+  ll = "eza -lb --git --time-style=long-iso"; # Lists in a list
   llt = "ll --tree --level=2"; # Lists in a tree
   lltt = "ll --tree"; # Lists in a deep tree
   lr = "ll -R"; # Lists human readable sizes, recursively.

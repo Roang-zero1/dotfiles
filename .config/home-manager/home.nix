@@ -115,7 +115,7 @@
     nix-direnv.enable = true;
     stdlib = builtins.readFile ./direnv/direnvrc;
   };
-  programs.exa.enable = true;
+  programs.eza.enable = true;
   programs.fzf = {
     enable = true;
     defaultCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
