@@ -15,6 +15,7 @@
   lu = "lt -u"; # Lists sorted by date, most recent last, shows access time.
 
   # git
+  g = "git";
   gst = "git status";
 
   # Tool specific aliases
