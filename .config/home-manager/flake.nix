@@ -21,7 +21,11 @@
     ...
   }: let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs =
+      (import nixpkgs {
+        inherit system;
+      })
+      .pkgs;
     nixvimModule = nixvim.homeManagerModules.nixvim;
     dracula-dircolors-repo = pkgs.fetchFromGitHub {
       owner = "dracula";
@@ -40,7 +44,9 @@
 
       # Optionally use extraSpecialArgs
       # to pass through arguments to home.nix
-      extraSpecialArgs = {inherit dracula-dircolors-repo;};
+      extraSpecialArgs = {
+        inherit dracula-dircolors-repo;
+      };
     };
   };
 }

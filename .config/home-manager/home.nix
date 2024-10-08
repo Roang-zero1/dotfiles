@@ -16,7 +16,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.05"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -45,12 +45,15 @@
     pkgs.gitlint
     pkgs.glibc
     pkgs.lazydocker
-    pkgs.nixfmt
+    # will be renamed in the future
+    pkgs.nixfmt-rfc-style
     pkgs.shellcheck
     pkgs.zinit
     pkgs.zsh-forgit
     pkgs.nixd
     pkgs.curl
+    pkgs.python313
+    pkgs.pdm
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -122,7 +125,7 @@
     fileWidgetCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
   };
 
-  programs.nixvim = {
+  programs.nixvim.config = {
     enable = true;
     extraPlugins = [pkgs.vimPlugins.dracula-nvim];
 
@@ -130,7 +133,7 @@
     viAlias = true;
     vimAlias = true;
 
-    options = {
+    opts = {
       relativenumber = true; # Show relative line numbers
       mouse = "vn";
       splitright = true;
@@ -148,7 +151,7 @@
     plugins.lualine = {
       enable = true;
 
-      iconsEnabled = true;
+      settings.options.icons_enabled = true;
     };
   };
 
@@ -210,7 +213,7 @@
     '';
     initExtraBeforeCompInit = ''
       eval $(${pkgs.coreutils}/bin/dircolors -b ~/.dir_colors)
-      source ${pkgs.nnn.src}/misc/quitcd/quitcd.bash_zsh
+      source ${pkgs.nnn.src}/misc/quitcd/quitcd.bash_sh_zsh
 
       if type "fd" >> /dev/null; then
         _fzf_compgen_path() {
