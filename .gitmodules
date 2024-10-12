@@ -1,3 +1,0 @@
-[submodule ".zinit/bin"]
-	path = .local/share/zinit/zinit.git
-	url = https://github.com/zdharma-continuum/zinit.git
