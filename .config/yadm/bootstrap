@@ -7,7 +7,7 @@ cd "$HOME" || exit
 echo "Init submodules"
 yadm submodule update --recursive --init
 
-while true; do
+while [ -z "$SKIP_INTERACTIVE_BOOTSTRAP" ]; do
     read -rp "Decrypt yadm secrets? " yn
     case $yn in
         [Yy]* ) yadm decrypt; break;;
@@ -16,7 +16,7 @@ while true; do
     esac
 done
 
-while true; do
+while [ -z "$SKIP_INTERACTIVE_BOOTSTRAP" ]; do
     read -rp "Tag this machine with the work class? " yn
     case $yn in
         [Yy]* ) yadm config --add local.class work; break;;
