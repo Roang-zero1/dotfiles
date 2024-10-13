@@ -20,7 +20,7 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -37,23 +37,32 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    pkgs.alejandra
-    pkgs.bitwarden-cli
-    pkgs.carapace
-    pkgs.delta
-    pkgs.fd
-    pkgs.gitlint
-    pkgs.glibc
-    pkgs.lazydocker
+    alejandra
+    awscli2
+    bitwarden-cli
+    carapace
+    delta
+    fd
+    gitlint
+    glibc
+    gh
+    lazydocker
     # will be renamed in the future
-    pkgs.nixfmt-rfc-style
-    pkgs.shellcheck
-    pkgs.zinit
-    pkgs.zsh-forgit
-    pkgs.nixd
-    pkgs.curl
-    pkgs.python313
-    pkgs.pdm
+    nixfmt-rfc-style
+    shellcheck
+    zinit
+    zsh-forgit
+    nixd
+    curl
+    (python312.withPackages (ps:
+      with ps;
+      with python312Packages; [
+        black
+        ipython
+        isort
+        pip
+      ]))
+    pdm
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
