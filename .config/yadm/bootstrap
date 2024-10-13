@@ -1,11 +1,5 @@
 #!/bin/sh
 # shellcheck disable=SC3045
-# Because Git submodule commands cannot operate without a work tree, they must
-# be run from within $HOME (assuming this is the root of your dotfiles)
-cd "$HOME" || exit
-
-echo "Init submodules"
-yadm submodule update --recursive --init
 
 while [ -z "$SKIP_INTERACTIVE_BOOTSTRAP" ]; do
     read -rp "Decrypt yadm secrets? " yn
