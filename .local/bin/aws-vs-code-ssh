@@ -1,0 +1,87 @@
+#!/bin/bash
+
+AWS_PROFILE="${AWS_PROFILE:-AA}"
+AWS_REGION="${AWS_REGION:-eu-central-1}"
+MAX_ITERATION=5
+SLEEP_DURATION=5
+OS_USER="${OS_USER:-lucas}"
+INSTANCE_NAME="${INSTANCE_NAME:-vs-code}"
+SKIP_CHECKS=false
+TUNNEL=false
+
+VALID_ARGS=$(getopt -o ft: --long fast,tunnel: -- "$@")
+if [[ $? -ne 0 ]]; then
+    exit 1
+fi
+
+connect() {
+    if [ $TUNNEL = false ];then
+        aws ec2-instance-connect ssh --os-user $OS_USER --connection-type eice --instance-id $INSTANCE_ID
+    else
+        ssh lucas@$INSTANCE_ID -o ProxyCommand="aws ec2-instance-connect open-tunnel --instance-id $INSTANCE_ID" -L 8000:localhost:8000
+    fi
+}
+
+eval set -- "$VALID_ARGS"
+while [ : ]; do
+    case "$1" in
+    -f | --fast)
+        SKIP_CHECKS=true
+        shift
+        ;;
+    -t | --tunnel)
+        arrIN=(${2//:/ })
+        TUNNEL=true
+        REMOTE=${arrIN[0]}
+        LOCAL=${arrIN[1]}
+        shift 2
+        ;;
+    --)
+        shift
+        break
+        ;;
+    esac
+done
+
+SSO_ACCOUNT=$(aws sts get-caller-identity --query "Account" --profile ${AWS_PROFILE})
+#you can add a better check, but this is just an idea for quick check
+if [ ${#SSO_ACCOUNT} -ne 14 ]; then
+    aws sso login
+fi
+
+INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${INSTANCE_NAME}" --query 'Reservations[].Instances[].[InstanceId]' --output text)
+
+if [ $SKIP_CHECKS = true ]; then
+    connect
+else
+    # Configuration
+    # Change these values to reflect your environment
+
+    STATUS=$(aws ssm describe-instance-information --filters Key=InstanceIds,Values=${INSTANCE_ID} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION})
+
+    # If the instance is online, start the session
+    if [ $STATUS == 'Online' ]; then
+        connect
+    else
+	echo "Starting the instance"
+        aws ec2 start-instances --instance-ids $INSTANCE_ID --profile ${AWS_PROFILE} --region ${AWS_REGION} > /dev/null
+        sleep ${SLEEP_DURATION}
+        COUNT=0
+        while [ ${COUNT} -le ${MAX_ITERATION} ]; do
+            STATUS=$(aws ssm describe-instance-information --filters Key=InstanceIds,Values=${INSTANCE_ID} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION})
+            if [ ${STATUS} == 'Online' ]; then
+                break
+            fi
+            # Max attempts reached, exit
+            if [ ${COUNT} -eq ${MAX_ITERATION} ]; then
+                echo "Instance start timed out" >&2
+                exit 1
+            else
+                let COUNT=COUNT+1
+                sleep ${SLEEP_DURATION}
+            fi
+        done
+        connect
+    fi
+
+fi
