@@ -206,6 +206,9 @@
     ];
     envExtra = ''
       export SSH_AUTH_SOCK="''${XDG_RUNTIME_DIR}/ssh-agent.socket"
+      if [[ $(grep -i Microsoft /proc/version) ]]; then
+        export BROWSER=wslview
+      fi
     '';
     initExtraFirst = ''
       source ${pkgs.zinit}/share/zinit/zinit.zsh
