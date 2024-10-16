@@ -50,6 +50,7 @@
     # will be renamed in the future
     nixfmt-rfc-style
     shellcheck
+    shfmt
     zinit
     zsh-forgit
     nixd
