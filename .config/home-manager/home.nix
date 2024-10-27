@@ -184,6 +184,56 @@
     "$HOME/.local/bin"
   ];
 
+  programs.git = {
+    enable = true;
+
+    userName = "Lucas Brandstaetter";
+    userEmail = "lucas@brandstaetter.tech";
+
+    aliases = {
+      branches = "branch -a";
+      tags = "tag";
+      stahes = "stash list";
+
+      amend = "commit --amend";
+       ane = "commit --amend --no-edit";
+      fu = "commit --fixup";
+    };
+
+    extraConfig = {
+      commit.verbose = true;
+      merge = {
+        stat = true;
+        conflictstyle = "zdiff3";
+      };
+      push.default = "simple";
+      rebase = {
+        autosquash = true;
+        autostash = true;
+      };
+    };
+
+    includes = [
+      { path = "~/.config/git/config.local"; }
+    ]
+    ;
+
+    delta = {
+      enable = true;
+      options = {
+        navigate = "true";
+        line-numbers = "true";
+        decorations = {
+          commit-decoration-style = "bold yellow box ul";
+          file-decoration-style = "none";
+          file-style = "bold yellow ul";
+        };
+        features = "decorations";
+        whitespace-error-style = "22 reverse";
+      };
+    };
+
+  };
   programs.pyenv.enable = true;
   programs.starship = {enable = true;};
   programs.zsh = {
