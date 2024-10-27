@@ -58,6 +58,7 @@
     (python312.withPackages (ps:
       with ps;
       with python312Packages; [
+        virtualenv
         black
         ipython
         isort
