@@ -16,4 +16,7 @@
   rsync = "noglob rsync";
   scp = "noglob scp";
   sftp = "noglob sftp";
+
+  # Development tools git
+  devgit = "git --git-dir=.gitdev";
 }
