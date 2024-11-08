@@ -40,7 +40,6 @@
     alejandra
     awscli2
     bitwarden-cli
-    carapace
     delta
     fd
     gitlint
@@ -65,6 +64,7 @@
         pip
       ]))
     pdm
+    vivid
   ];
 
   home.shellAliases = import ./aliases.nix;
@@ -92,8 +92,6 @@
     PYLINTHOME = "${config.xdg.dataHome}/pylint";
     PYLINTRC = "${config.xdg.dataHome}/pylint/pylintrc";
     YADM_DIR = "${config.xdg.dataHome}/yadm";
-    ZDOTDIR = "${config.xdg.dataHome}/zsh";
-    ZINIT_HOME = "${config.xdg.dataHome}/zinit";
   };
 
   # dircolors
@@ -106,6 +104,11 @@
   programs.bat = {
     enable = true;
     config.theme = "Dracula";
+  };
+  programs.carapace = {
+    enable = true;
+    enableZshIntegration = true;
+    enableNushellIntegration = true;
   };
   programs.direnv = {
     enable = true;
@@ -196,7 +199,7 @@
       stahes = "stash list";
 
       amend = "commit --amend";
-       ane = "commit --amend --no-edit";
+      ane = "commit --amend --no-edit";
       fu = "commit --fixup";
     };
 
@@ -214,9 +217,8 @@
     };
 
     includes = [
-      { path = "~/.config/git/config.local"; }
-    ]
-    ;
+      {path = "~/.config/git/config.local";}
+    ];
 
     delta = {
       enable = true;
@@ -232,10 +234,42 @@
         whitespace-error-style = "22 reverse";
       };
     };
-
   };
   programs.pyenv.enable = true;
   programs.starship = {enable = true;};
+  programs.nushell = {
+    enable = true;
+    configFile.source = ./nushell/config.nu;
+    envFile.source = ./nushell/env.nu;
+
+    extraEnv = ''
+      $env.PATH = (
+        $env.PATH
+        | prepend "${config.home.profileDirectory}/bin"
+        | uniq
+      )
+    '';
+
+    extraLogin = ''
+      $env.XDG_DATA_DIRS = $"/usr/local/share/:/usr/share/:($env.HOME)/.local/share:${config.home.profileDirectory}/share"
+    '';
+
+    environmentVariables = builtins.mapAttrs (name: value: "${builtins.toString value}") config.home.sessionVariables;
+
+    shellAliases = {
+      ll = "ls -l";
+      g = "git";
+      gst = "git status";
+
+      # ForGit aliases
+      ga = "git forgit add";
+      gco = "git forgit checkout_branch";
+      gfu = "git forgit fixup";
+      grb = "git forgit rebase";
+      grl = "git forgit reflog";
+      devgit = "git --git-dir=.gitdev";
+    };
+  };
   programs.zsh = {
     enable = true;
 
@@ -262,6 +296,9 @@
         export BROWSER=wslview
       fi
     '';
+    sessionVariables = {
+      ZINIT_HOME = "${config.xdg.dataHome}/zinit";
+    };
     initExtraFirst = ''
       source ${pkgs.zinit}/share/zinit/zinit.zsh
     '';
@@ -282,8 +319,6 @@
       zinit wait lucid for \
         OMZP::extract \
         OMZP::cp
-
-      source <(carapace chmod zsh)
     '';
     initExtra = ''
       ${builtins.readFile ./zsh/bindkeys.zsh}
@@ -306,6 +341,10 @@
         atload"!_zsh_autosuggest_start" \
           zsh-users/zsh-autosuggestions
     '';
+  };
+  programs.zoxide = {
+    enable = true;
+    enableNushellIntegration = true;
   };
   # Create a ssh-agent service that can be used by all session
   # and services (e.g. code tunnel)
