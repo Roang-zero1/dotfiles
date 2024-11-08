@@ -237,7 +237,16 @@
       };
     };
   };
-  programs.starship = {enable = true;};
+  programs.starship = {
+    enable = true;
+
+    settings = pkgs.lib.importTOML ./starship.toml;
+
+    enableZshIntegration = true;
+    enableNushellIntegration = true;
+
+    enableTransience = true;
+    };
   programs.nushell = {
     enable = true;
     configFile.source = ./nushell/config.nu;

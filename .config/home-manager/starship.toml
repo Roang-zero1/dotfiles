@@ -1,0 +1,103 @@
+
+add_newline = false
+
+[sudo]
+disabled = false
+symbol = "󰌋 "
+
+[username]
+show_always = true
+format = '[$user]($style)'
+#style_user = "bg:#9A348E"
+#style_root = "bg:#9A348E"
+
+
+[directory]
+truncation_symbol = "…/"
+read_only = "󰌾"
+format = ' in [$path]($style)[$read_only]($read_only_style) '
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[hostname]
+ssh_symbol = " "
+format = " on [$ssh_symbol$hostname]($style)"
+
+[git_branch]
+symbol = " "
+ignore_branches = ['develop', 'main']
+
+[git_status]
+conflicted = " "
+up_to_date = "[󱝀 ](green)"
+deleted = "[󰧧 ](bold red)"
+modified = "[󰙏 ](green)"
+stashed = "[󱝏 ](white)"
+#staged = "[󰎜](bold blue) "
+#renamed = "[󰄾](206) "
+untracked = "󱀶 "
+
+[character]
+error_symbol = '[](bold red) '
+
+[battery]
+full_symbol = '󰁹 '
+charging_symbol = '⚡️ '
+discharging_symbol = '󱟟 '
+
+[cmd_duration]
+format = '\[[ $duration]($style)\]'
+
+[direnv]
+disabled = false
+allowed_msg = " "
+not_allowed_msg = "[ ](red)"
+denied_msg = "[ ](red)"
+loaded_msg = "󰏑 "
+unloaded_msg = "󰋻 "
+symbol = " "
+
+[docker_context]
+#format = '\[[$symbol$context]($style)\]'
+symbol = " "
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+disabled = false
+
+[nodejs]
+symbol = " "
+
+[package]
+symbol = "󰏗 "
+
+[python]
+symbol = " "
+
+[status]
+disabled = false
+symbol = "[](#FF0000)"
+sigint_symbol = "[](yellow)"
+signal_symbol = "[⚡](blue)"
+not_executable_symbol = "[ ](red)"
+not_found_symbol = "[ ](red)"
+
+[os.symbols]
+Alpine = " "
+Amazon = " "
+Debian = " "
+Kali = " "
+Linux = " "
+Mint = " "
+NixOS = " "
+Raspbian = " "
+Ubuntu = " "
+Unknown = " "
+Windows = "󰍲 "
