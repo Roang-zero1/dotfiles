@@ -48,8 +48,10 @@
     lazydocker
     # will be renamed in the future
     nixfmt-rfc-style
+    nodePackages.prettier
     shellcheck
     shfmt
+    yarn-berry
     zinit
     zsh-forgit
     nixd
