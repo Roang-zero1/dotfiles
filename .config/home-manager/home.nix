@@ -237,7 +237,6 @@
       };
     };
   };
-  programs.pyenv.enable = true;
   programs.starship = {enable = true;};
   programs.nushell = {
     enable = true;
