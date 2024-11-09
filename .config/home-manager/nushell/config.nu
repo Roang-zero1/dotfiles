@@ -50,3 +50,4 @@ $env.config = {
 $env.EDITOR = "nvim"
 $env.LS_COLORS = (vivid generate dracula | str trim)
 
+use ./lib/git.nu *

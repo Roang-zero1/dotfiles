@@ -375,4 +375,8 @@
   };
   # Add an environment.d file, so other services know about the SSH_AUTH_SOCK
   home.file.".config/environment.d/20-ssh-auth-sochet.conf".text = "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
+  home.file."${config.xdg.configHome}/nushell/lib/" = {
+    source = ./nushell/lib;
+    recursive = true;
+  };
 }
