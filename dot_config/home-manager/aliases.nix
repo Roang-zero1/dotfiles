@@ -1,33 +1,48 @@
 {
-  # File listing aliases
-  ls = "eza";
-  l = "eza -1a"; # Lists in one column, hidden files.
-  ll = "eza -lb --git --time-style=long-iso"; # Lists in a list
-  llt = "ll --tree --level=2"; # Lists in a tree
-  lltt = "ll --tree"; # Lists in a deep tree
-  lr = "ll -R"; # Lists human readable sizes, recursively.
-  la = "ll -hHgma --color-scale"; # Lists human readable sizes, hidden files.
-  lad = "la --group-directories-first"; # Lists human readable sizes, hidden files.
-  lm = ''la | "$PAGER"''; # Lists human readable sizes, hidden files through pager.
-  lk = "ll -s size"; # Lists sorted by size, largest last.
-  lt = "ll -s modified"; # Lists sorted by date, most recent last.
-  lc = "lt -U"; # Lists sorted by date, most recent last, shows created time.
-  lu = "lt -u"; # Lists sorted by date, most recent last, shows access time.
+  common = {
+    # File listing aliases
+    ll = "ls -l"; # Lists in a list
+    la = "ls -la"; # Lists in a list, hidden files.
 
-  # git
-  g = "git";
-  gst = "git status";
+    l = "eza -1a"; # Lists in one column, hidden files.
+    llt = "eza -l --tree --level=2"; # Lists in a tree
+    lltt = "eza -l --tree"; # Lists in a deep tree
+    lr = "eza -lR"; # Lists human readable sizes, recursively.
 
-  # Tool specific aliases
-  cat = "bat -p";
-  get = "curl --continue-at - --location --progress-bar --remote-name --remote-time";
-  lzd = "lazydocker";
-  n = "n -c";
-  nnn = "nnn -c";
+    lad = "eza -l --group-directories-first"; # Lists human readable sizes, hidden files.
+    lk = "eza -ls size"; # Lists sorted by size, largest last.
+    lt = "eza -ls modified"; # Lists sorted by date, most recent last.
+    lc = "eza -lUs modified"; # Lists sorted by date, most recent last, shows created time.
+    lu = "eza -lus modified"; # Lists sorted by date, most recent last, shows access time.
 
-  apt = "sudo apt";
-  ports = "ss -tulanp";
+    g = "git";
+    gst = "git status";
 
-  df = "df -kh";
-  du = "du -kh";
+    # ForGit aliases
+    ga = "git forgit add";
+    gco = "git forgit checkout_branch";
+    gfu = "git forgit fixup";
+    grb = "git forgit rebase";
+    grl = "git forgit reflog";
+    devgit = "git --git-dir=.gitdev";
+
+    # Tool specific aliases
+    cat = "bat -p";
+    dl = "curl --continue-at - --location --progress-bar --remote-name --remote-time";
+    lzd = "lazydocker";
+
+    apt = "sudo nala";
+    nala = "sudo nala";
+    ports = "ss -tulanp";
+    cm = "chezmoi";
+
+    df = "df -h";
+  };
+
+  bash = {
+    ls = "eza";
+    la = "eza -l -hHgma --color-scale"; # Lists human readable sizes, hidden files.
+    ll = "eza -lb --git --time-style=long-iso";
+    du = "du -kh";
+  };
 }

@@ -4,6 +4,7 @@
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    pre-commit-hooks.url = "github:cachix/git-hooks.nix";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,39 +15,42 @@
     };
   };
 
-  outputs = {
-    nixpkgs,
-    home-manager,
-    nixvim,
-    ...
-  }: let
-    system = "x86_64-linux";
-    pkgs =
-      (import nixpkgs {
-        inherit system;
-      })
-      .pkgs;
-    nixvimModule = nixvim.homeManagerModules.nixvim;
-    dracula-dircolors-repo = pkgs.fetchFromGitHub {
-      owner = "dracula";
-      repo = "dircolors";
-      rev = "89479aa861c4193805076a00ef7f0932d5eea134";
-      sha256 = "sha256-ZMBTKEp4oO1My53UYPcndwhZnh96FANsZk2+OD9Kxsc=";
-      sparseCheckout = [".dircolors"];
-    };
-  in {
-    homeConfigurations."lucas" = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs =
+        (import nixpkgs {
+          inherit system;
+        }).pkgs;
+      nixvimModule = inputs.nixvim.homeManagerModules.nixvim;
+    in
+    {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+      checks.x86_64-linux.pre-commit-check = inputs.pre-commit-hooks.lib.x86_64-linux.run {
+        src = ./.;
+        hooks = {
+          nixpkgs-fmt.enable = true;
+        };
+      };
+      homeConfigurations."lucas" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
 
-      # Specify your home configuration modules here, for example,
-      # the path to your home.nix.
-      modules = [./home.nix nixvimModule];
+        # Specify your home configuration modules here, for example,
+        # the path to your home.nix.
+        modules = [
+          ./home.nix
+          nixvimModule
+        ];
 
-      # Optionally use extraSpecialArgs
-      # to pass through arguments to home.nix
-      extraSpecialArgs = {
-        inherit dracula-dircolors-repo;
+        # Optionally use extraSpecialArgs
+        # to pass through arguments to home.nix
+        extraSpecialArgs = {
+        };
       };
     };
-  };
 }

@@ -1,9 +1,12 @@
 {
   config,
   pkgs,
-  dracula-dircolors-repo,
   ...
-}: {
+}:
+let
+  aliases = import ./aliases.nix;
+in
+{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "lucas";
@@ -21,31 +24,17 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
     alejandra
     awscli2
     bitwarden-cli
+    chezmoi
+    curl
     delta
     fd
-    gitlint
-    glibc
     gh
+    gitlint
     lazydocker
+    nixd
     # will be renamed in the future
     nixfmt-rfc-style
     nodePackages.prettier
@@ -55,34 +44,23 @@
     yarn-berry
     zinit
     zsh-forgit
-    nixd
-    curl
-    (python312.withPackages (ps:
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.jetbrains-mono
+    (python312.withPackages (
+      ps:
       with ps;
-      with python312Packages; [
-        virtualenv
-        black
+      with python312Packages;
+      [
         ipython
-        isort
-        pip
-      ]))
-    pdm
+        ruff
+        uv
+        virtualenv
+      ]
+    ))
     vivid
   ];
 
-  home.shellAliases = import ./aliases.nix;
-  programs.zsh.shellAliases = import ./zsh/aliases.nix;
-
-  # You can also manage environment variables but you will have to manually
-  # source
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/lucas/etc/profile.d/hm-session-vars.sh
-  #
-  # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     MANPAGER = "sh -c 'col -b | bat -l man -p'";
     COLORTERM = "truecolor";
@@ -97,12 +75,14 @@
     YADM_DIR = "${config.xdg.dataHome}/yadm";
   };
 
-  # dircolors
-  home.file.".dir_colors".text =
-    builtins.readFile "${dracula-dircolors-repo}/.dircolors";
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  ############## PROGRAMS ##############
 
   programs.bat = {
     enable = true;
@@ -110,12 +90,10 @@
   };
   programs.carapace = {
     enable = true;
-    enableZshIntegration = true;
     enableNushellIntegration = true;
   };
   programs.direnv = {
     enable = true;
-
     nix-direnv.enable = true;
     stdlib = builtins.readFile ./direnv/direnvrc;
   };
@@ -124,72 +102,13 @@
     enable = true;
     defaultCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
     fileWidgetCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
+    defaultOptions = [
+      "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9"
+      "--color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9"
+      "--color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6"
+      "--color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
+    ];
   };
-
-  programs.nixvim.config = {
-    enable = true;
-    extraPlugins = [pkgs.vimPlugins.dracula-nvim];
-
-    globals = {mapleader = " ";};
-    viAlias = true;
-    vimAlias = true;
-
-    opts = {
-      relativenumber = true; # Show relative line numbers
-      mouse = "vn";
-      splitright = true;
-      splitbelow = true;
-      expandtab = true;
-      tabstop = 2;
-      ignorecase = true;
-      smartcase = true;
-      signcolumn = "yes";
-      updatetime = 750;
-      completeopt = ["menuone" "noinsert" "noselect"];
-    };
-
-    colorscheme = "dracula";
-    plugins.lualine = {
-      enable = true;
-
-      settings.options.icons_enabled = true;
-    };
-  };
-
-  programs.nnn = {
-    enable = true;
-
-    package = pkgs.nnn.overrideAttrs (finalAttrs: previousAttrs: {
-      makeFlags = ["PREFIX=$(out)" "O_NERD=1" "O_GITSTATUS=1" "O_NAMEFIRST=1"];
-    });
-
-    plugins.src =
-      (pkgs.fetchFromGitHub {
-        owner = "jarun";
-        repo = "nnn";
-        rev = "v4.0";
-        sha256 = "sha256-Hpc8YaJeAzJoEi7aJ6DntH2VLkoR6ToP6tPYn3llR7k=";
-      })
-      + "/plugins";
-    plugins.mappings = {
-      p = "preview-tui";
-      d = "dups";
-      c = "diffs";
-      f = "fzopen";
-      s = "finder";
-      g = "-!git diff";
-      e = ''-!code "$nnn"'';
-    };
-  };
-  home.sessionVariables = {
-    NNN_FCOLORS = "C1E20402036033F7C6D6ABC4";
-    NNN_FIFO = "/tmp/nnn.fifo";
-    NNN_OPENER = "${config.xdg.dataHome}/nnn/plugins/nuke";
-  };
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
-
   programs.git = {
     enable = true;
 
@@ -199,7 +118,7 @@
     aliases = {
       branches = "branch -a";
       tags = "tag";
-      stahes = "stash list";
+      stashes = "stash list";
 
       amend = "commit --amend";
       ane = "commit --amend --no-edit";
@@ -220,7 +139,7 @@
     };
 
     includes = [
-      {path = "~/.config/git/config.local";}
+      { path = "~/.config/git/config.local"; }
     ];
 
     delta = {
@@ -238,125 +157,87 @@
       };
     };
   };
-  programs.starship = {
+  programs.nixvim.config = {
     enable = true;
+    extraPlugins = [ pkgs.vimPlugins.dracula-nvim ];
 
-    settings = pkgs.lib.importTOML ./starship.toml;
-
-    enableZshIntegration = true;
-    enableNushellIntegration = true;
-
-    enableTransience = true;
+    globals = {
+      mapleader = " ";
     };
-  programs.nushell = {
-    enable = true;
-    configFile.source = ./nushell/config.nu;
-    envFile.source = ./nushell/env.nu;
+    viAlias = true;
+    vimAlias = true;
 
-    extraEnv = ''
-      $env.PATH = (
-        $env.PATH
-        | prepend "${config.home.profileDirectory}/bin"
-        | uniq
-      )
-    '';
-
-    extraLogin = ''
-      $env.XDG_DATA_DIRS = $"/usr/local/share/:/usr/share/:($env.HOME)/.local/share:${config.home.profileDirectory}/share"
-    '';
-
-    environmentVariables = builtins.mapAttrs (name: value: "${builtins.toString value}") config.home.sessionVariables;
-
-    shellAliases = {
-      ll = "ls -l";
-      g = "git";
-      gst = "git status";
-
-      # ForGit aliases
-      ga = "git forgit add";
-      gco = "git forgit checkout_branch";
-      gfu = "git forgit fixup";
-      grb = "git forgit rebase";
-      grl = "git forgit reflog";
-      devgit = "git --git-dir=.gitdev";
-    };
-  };
-  programs.zsh = {
-    enable = true;
-
-    dotDir = ".config/zsh";
-
-    # History settings
-    history = {
-      expireDuplicatesFirst = true;
-      extended = true;
-      ignoreAllDups = true;
-      path = "${config.xdg.dataHome}/zsh/history";
-      share = true;
+    opts = {
+      relativenumber = true; # Show relative line numbers
+      mouse = "vn";
+      splitright = true;
+      splitbelow = true;
+      expandtab = true;
+      tabstop = 2;
+      ignorecase = true;
+      smartcase = true;
+      signcolumn = "yes";
+      updatetime = 750;
+      completeopt = [
+        "menuone"
+        "noinsert"
+        "noselect"
+      ];
     };
 
-    plugins = [
-      {
-        name = "forgit";
-        src = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit";
-      }
-    ];
-    envExtra = ''
-      export SSH_AUTH_SOCK="''${XDG_RUNTIME_DIR}/ssh-agent.socket"
-      if [[ $(grep -i Microsoft /proc/version) ]]; then
-        export BROWSER=wslview
-      fi
-    '';
-    sessionVariables = {
-      ZINIT_HOME = "${config.xdg.dataHome}/zinit";
+    colorscheme = "dracula";
+    plugins.lualine = {
+      enable = true;
+
+      settings.options.icons_enabled = true;
     };
-    initExtraFirst = ''
-      source ${pkgs.zinit}/share/zinit/zinit.zsh
-    '';
-    initExtraBeforeCompInit = ''
-      eval $(${pkgs.coreutils}/bin/dircolors -b ~/.dir_colors)
-      source ${pkgs.nnn.src}/misc/quitcd/quitcd.bash_sh_zsh
-
-      if type "fd" >> /dev/null; then
-        _fzf_compgen_path() {
-          fd --hidden --follow --exclude ".git" . "$1"
-        }
-
-        _fzf_compgen_dir() {
-          fd --type d --hidden --follow --exclude ".git" . "$1"
-        }
-      fi
-
-      zinit wait lucid for \
-        OMZP::extract \
-        OMZP::cp
-    '';
-    initExtra = ''
-      ${builtins.readFile ./zsh/bindkeys.zsh}
-      ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=4,underline"
-      ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-      ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-      ZSH_AUTOSUGGEST_HISTORY_IGNORE="?(#c50,)"
-
-      zstyle ':completion:*:descriptions' format '[%d]'
-      zstyle ':fzf-tab:*' switch-group ',' '.'
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-      zstyle ':fzf-tab:*' query-string '''
-      zstyle ":completion:*" list-colors ''${(s.:.)LS_COLORS}
-    '';
-    completionInit = ''
-      zinit wait lucid for \
-          light-mode "Aloxaf/fzf-tab" \
-        atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-          zdharma-continuum/fast-syntax-highlighting \
-        atload"!_zsh_autosuggest_start" \
-          zsh-users/zsh-autosuggestions
-    '';
   };
   programs.zoxide = {
     enable = true;
     enableNushellIntegration = true;
   };
+  programs.starship = {
+    enable = true;
+
+    settings = pkgs.lib.importTOML ./starship.toml;
+
+    enableNushellIntegration = true;
+    enableBashIntegration = true;
+
+    enableTransience = true;
+  };
+
+  ############## SHELLS ##############
+  programs.bash = {
+    enable = true;
+
+    initExtra = ''
+      export LS_COLORS="$(vivid generate dracula)"
+    '';
+
+    shellAliases = aliases.common // aliases.bash;
+  };
+  programs.nushell = {
+    enable = true;
+    configFile.source = ./nushell/config.nu;
+    envFile.source = ./nushell/env.nu;
+
+    extraLogin = ''
+      $env.XDG_DATA_DIRS = $"/usr/local/share/:/usr/share/:($env.HOME)/.local/share:${config.home.profileDirectory}/share"
+    '';
+
+    environmentVariables = builtins.mapAttrs (
+      name: value: "${builtins.toString value}"
+    ) config.home.sessionVariables;
+
+    shellAliases = aliases.common;
+  };
+  home.file."${config.xdg.configHome}/nushell/lib/" = {
+    source = ./nushell/lib;
+    recursive = true;
+  };
+
+  ############## SERVICES ##############
   # Create a ssh-agent service that can be used by all session
   # and services (e.g. code tunnel)
   systemd.user.services.ssh-agent = {
@@ -364,7 +245,7 @@
       Description = "SSH-agent service.";
     };
     Install = {
-      WantedBy = ["default.target"];
+      WantedBy = [ "default.target" ];
     };
     Service = {
       Type = "simple";
@@ -375,9 +256,6 @@
     };
   };
   # Add an environment.d file, so other services know about the SSH_AUTH_SOCK
-  home.file.".config/environment.d/20-ssh-auth-sochet.conf".text = "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
-  home.file."${config.xdg.configHome}/nushell/lib/" = {
-    source = ./nushell/lib;
-    recursive = true;
-  };
+  home.file.".config/environment.d/20-ssh-auth-sochet.conf".text =
+    "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
 }
