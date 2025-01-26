@@ -4,26 +4,32 @@ This is my personal tools collection which includes my dotfiles, some Windows Do
 
 ## Setup
 
-Install yadm on the system:
+Install `chezmoi` and nix with home-manager on the system.
 
-### Ubuntu
+### Nix
 
-On Ubuntu yadm is available via apt.
+#### Package manager
 
-`sudo apt install yadm`
+Instal nix as multi-user installation as documented at <https://nixos.org/download/>.
 
-### Manual install
+```bash
+sh <(curl -L https://nixos.org/nix/install) --daemon
+```
 
-Alternatively the binary can be downloaded from github.
+### chezmoi
 
-#### System wide installation
+With nix ready we can use it to run `chezmoi` and init our dotfiles:
 
-`curl -fLo /usr/local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x /usr/local/bin/yadm`
+```bash
+nix-env -i chezmoi
+chezmoi init --apply Roang-zero1
+```
 
-#### User installation
+#### Home Manager
 
-`curl -fLo ~/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x ~/bin/yadm`
+Finally run the `home-manager` initialization. 
+Follow the home manager installation guide for systems with flake support: <https://nix-community.github.io/home-manager/index.xhtml#sec-flakes-standalone>.
 
-## ZSH
-
-Plugins and themes are loaded with [zplug](https://github.com/zplug/zplug)
+```bash
+nix run home-manager/master -- init --switch
+```

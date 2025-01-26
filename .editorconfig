@@ -17,3 +17,6 @@ trim_trailing_whitespace = false
 # Set default charset
 [*.{js,py,json,md}]
 charset = utf-8
+
+[*.py]
+indent_size = 4

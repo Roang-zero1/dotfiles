@@ -49,6 +49,7 @@
     # will be renamed in the future
     nixfmt-rfc-style
     nodePackages.prettier
+    rage
     shellcheck
     shfmt
     yarn-berry
