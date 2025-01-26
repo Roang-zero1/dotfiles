@@ -84,6 +84,22 @@ in
 
   ############## PROGRAMS ##############
 
+  programs.atuin = {
+    enable = true;
+    enableNushellIntegration = true;
+    settings = {
+      dialect = "uk";
+      filter_mode_shell_up_key_binding = "directory";
+      sync_frequency = "5m";
+      inline_height = 25;
+      history_filter = [
+        "\"[+=\\/\\w]{60}.*\""
+        ".*ms-python.debugpy.*"
+        "^\\.\\.+"
+        "^class"
+      ];
+    };
+  };
   programs.bat = {
     enable = true;
     config.theme = "Dracula";
@@ -98,17 +114,6 @@ in
     stdlib = builtins.readFile ./direnv/direnvrc;
   };
   programs.eza.enable = true;
-  programs.fzf = {
-    enable = true;
-    defaultCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
-    fileWidgetCommand = "fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude .venv";
-    defaultOptions = [
-      "--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9"
-      "--color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9"
-      "--color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6"
-      "--color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4"
-    ];
-  };
   programs.git = {
     enable = true;
 
