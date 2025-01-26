@@ -46,4 +46,36 @@ $env.config = {
 $env.EDITOR = "nvim"
 $env.LS_COLORS = (vivid generate dracula | str trim)
 
+$env.config.keybindings = [
+  {
+    name: fuzzy_history
+    modifier: control
+    keycode: char_r
+    mode: [emacs, vi_normal, vi_insert]
+    event: [
+      {
+        send: ExecuteHostCommand
+        cmd: "commandline edit (
+          history
+            | get command
+            | reverse
+            | uniq
+            | str join (char -i 0)
+            | fzf
+              --read0
+              --scheme history
+              --layout reverse
+              --height 40%
+              --preview='{} | nu-highlight'
+              --preview-window 'right:30%'
+              --bind 'ctrl-/:change-preview-window(right,70%|right)'
+              --query (commandline)
+            | decode utf-8
+            | str trim
+        )"
+      }
+    ]
+  }
+]
+
 use ./lib/git.nu *
