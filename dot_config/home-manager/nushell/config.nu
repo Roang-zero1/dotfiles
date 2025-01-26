@@ -29,10 +29,6 @@ let external_completer = {|spans|
     } | do $in $spans
 }
 
-let git_list_merged = {
-  git branch --merged | lines | where $it !~ '\*' | str trim | where $it != 'master' and $it != 'main' | each { |it| git branch -d $it }
-}
-
 $env.config = {
   show_banner: false,
   table: {
