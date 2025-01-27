@@ -126,6 +126,8 @@ in
       stashes = "stash list";
 
       amend = "commit --amend";
+
+      c = "commit";
       ane = "commit --amend --no-edit";
       fu = "commit --fixup";
     };
@@ -141,6 +143,7 @@ in
         autosquash = true;
         autostash = true;
       };
+      init.defaultBranch = "main";
     };
 
     includes = [
