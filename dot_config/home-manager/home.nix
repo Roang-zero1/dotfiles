@@ -234,6 +234,14 @@ in
       $env.XDG_DATA_DIRS = $"/usr/local/share/:/usr/share/:($env.HOME)/.local/share:${config.home.profileDirectory}/share"
     '';
 
+    # Path is needed for WSL
+    extraEnv = ''
+      use std/util "path add"
+      path add ($env.HOME | path join .local bin)
+      path add "${config.home.profileDirectory}/bin"
+      path add "/nix/var/nix/profiles/default/bin"
+    '';
+
     environmentVariables = builtins.mapAttrs (
       name: value: "${builtins.toString value}"
     ) config.home.sessionVariables;
