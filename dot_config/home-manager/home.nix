@@ -138,7 +138,10 @@ in
         stat = true;
         conflictstyle = "zdiff3";
       };
-      push.default = "simple";
+      push= {
+        autoSetupRemote = true;
+        default = "simple";
+      };
       rebase = {
         autosquash = true;
         autostash = true;
