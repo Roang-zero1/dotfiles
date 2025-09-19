@@ -45,10 +45,9 @@ in {
     nerd-fonts.fira-code
     nerd-fonts.hack
     nerd-fonts.jetbrains-mono
-    (python312.withPackages (
+    (python313.withPackages (
       ps:
-        with ps;
-        with python312Packages; [
+        with ps; [
           ipython
           ruff
           uv
