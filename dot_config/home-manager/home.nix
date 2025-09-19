@@ -46,15 +46,13 @@ in {
     nerd-fonts.fira-code
     nerd-fonts.hack
     nerd-fonts.jetbrains-mono
-    (python312.withPackages (
-      ps:
-        with ps;
-        with python312Packages; [
-          ipython
-          ruff
-          uv
-          virtualenv
-        ]
+    (python313.withPackages (
+      ps: with ps; [
+        ipython
+        ruff
+        uv
+        virtualenv
+      ]
     ))
     vivid
   ];
