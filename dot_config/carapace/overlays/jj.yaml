@@ -1,0 +1,93 @@
+# yaml-language-server: $schema=https://carapace.sh/schemas/command.json
+name: jj
+commands:
+  - name: push
+    description: Push to a Git remote
+    flags:
+      --all: Push all bookmarks (including new bookmarks)
+      --allow-empty-description: Allow pushing commits with empty descriptions
+      --allow-private: Allow pushing commits that are private
+      --deleted: Push all deleted bookmarks
+      --dry-run: Only display what will change on the remote
+      --named*=: Specify a new bookmark name and a revision to push under that name, e.g. '--named myfeature=@'
+      --remote=: The remote to push to (only named remotes are supported)
+      --tracked: Push all tracked bookmarks
+      -N, --allow-new: Allow pushing new bookmarks
+      -b, --bookmark*=: Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+      -c, --change*=: Push this commit by creating a bookmark based on its change ID (can be repeated)
+      -h, --help: Print help (see more with '--help')
+      -r, --revisions*=: Push bookmarks pointing to these commits (can be repeated)
+    completion:
+      flag:
+        bookmark: ["$carapace.tools.jj.LocalBookmarks"]
+        change: ["$carapace.tools.jj.Revs"]
+        named: ["$carapace.tools.jj.LocalBookmarks"]
+        remote : ["$carapace.tools.jj.Remotes"]
+        revisions: ["$carapace.tools.jj.Revs"]
+  - name: p
+    description: Push to a Git remote
+    flags:
+      --all: Push all bookmarks (including new bookmarks)
+      --allow-empty-description: Allow pushing commits with empty descriptions
+      --allow-private: Allow pushing commits that are private
+      --deleted: Push all deleted bookmarks
+      --dry-run: Only display what will change on the remote
+      --named*=: Specify a new bookmark name and a revision to push under that name, e.g. '--named myfeature=@'
+      --remote=: The remote to push to (only named remotes are supported)
+      --tracked: Push all tracked bookmarks
+      -N, --allow-new: Allow pushing new bookmarks
+      -b, --bookmark*=: Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+      -c, --change*=: Push this commit by creating a bookmark based on its change ID (can be repeated)
+      -h, --help: Print help (see more with '--help')
+      -r, --revisions*=: Push bookmarks pointing to these commits (can be repeated)
+    completion:
+      flag:
+        bookmark: ["$carapace.tools.jj.LocalBookmarks"]
+        change: ["$carapace.tools.jj.Revs"]
+        named: ["$carapace.tools.jj.LocalBookmarks"]
+        remote : ["$carapace.tools.jj.Remotes"]
+        revisions: ["$carapace.tools.jj.Revs"]
+  - name: push-new
+    description: Push to a Git remote
+    flags:
+      --all: Push all bookmarks (including new bookmarks)
+      --allow-empty-description: Allow pushing commits with empty descriptions
+      --allow-private: Allow pushing commits that are private
+      --deleted: Push all deleted bookmarks
+      --dry-run: Only display what will change on the remote
+      --named*=: Specify a new bookmark name and a revision to push under that name, e.g. '--named myfeature=@'
+      --remote=: The remote to push to (only named remotes are supported)
+      --tracked: Push all tracked bookmarks
+      -b, --bookmark*=: Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+      -c, --change*=: Push this commit by creating a bookmark based on its change ID (can be repeated)
+      -h, --help: Print help (see more with '--help')
+      -r, --revisions*=: Push bookmarks pointing to these commits (can be repeated)
+    completion:
+      flag:
+        bookmark: ["$carapace.tools.jj.LocalBookmarks"]
+        change: ["$carapace.tools.jj.Revs"]
+        named: ["$carapace.tools.jj.LocalBookmarks"]
+        remote : ["$carapace.tools.jj.Remotes"]
+        revisions: ["$carapace.tools.jj.Revs"]
+  - name: pn
+    description: Push to a Git remote
+    flags:
+      --all: Push all bookmarks (including new bookmarks)
+      --allow-empty-description: Allow pushing commits with empty descriptions
+      --allow-private: Allow pushing commits that are private
+      --deleted: Push all deleted bookmarks
+      --dry-run: Only display what will change on the remote
+      --named*=: Specify a new bookmark name and a revision to push under that name, e.g. '--named myfeature=@'
+      --remote=: The remote to push to (only named remotes are supported)
+      --tracked: Push all tracked bookmarks
+      -b, --bookmark*=: Push only this bookmark, or bookmarks matching a pattern (can be repeated)
+      -c, --change*=: Push this commit by creating a bookmark based on its change ID (can be repeated)
+      -h, --help: Print help (see more with '--help')
+      -r, --revisions*=: Push bookmarks pointing to these commits (can be repeated)
+    completion:
+      flag:
+        bookmark: ["$carapace.tools.jj.LocalBookmarks"]
+        change: ["$carapace.tools.jj.Revs"]
+        named: ["$carapace.tools.jj.LocalBookmarks"]
+        remote : ["$carapace.tools.jj.Remotes"]
+        revisions: ["$carapace.tools.jj.Revs"]
