@@ -2,11 +2,9 @@
   config,
   pkgs,
   ...
-}:
-let
+}: let
   aliases = import ./aliases.nix;
-in
-{
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "lucas";
@@ -34,6 +32,7 @@ in
     gh
     gitlint
     lazydocker
+    lazyjj
     nixd
     # will be renamed in the future
     nixfmt-rfc-style
@@ -49,14 +48,13 @@ in
     nerd-fonts.jetbrains-mono
     (python312.withPackages (
       ps:
-      with ps;
-      with python312Packages;
-      [
-        ipython
-        ruff
-        uv
-        virtualenv
-      ]
+        with ps;
+        with python312Packages; [
+          ipython
+          ruff
+          uv
+          virtualenv
+        ]
     ))
     vivid
   ];
@@ -138,7 +136,7 @@ in
         stat = true;
         conflictstyle = "zdiff3";
       };
-      push= {
+      push = {
         autoSetupRemote = true;
         default = "simple";
       };
@@ -150,7 +148,7 @@ in
     };
 
     includes = [
-      { path = "~/.config/git/config.local"; }
+      {path = "~/.config/git/config.local";}
     ];
 
     delta = {
@@ -168,9 +166,45 @@ in
       };
     };
   };
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user.name = "Lucas Brandstaetter";
+      user.email = "lucas@brandstaetter.tech";
+      ui = {
+        editor = "code --wait";
+        merge-editor = "vscode";
+      };
+      aliases = {
+        push = [
+          "util"
+          "exec"
+          "--"
+          "uvx"
+          "jj-pre-push"
+          "push"
+        ];
+        p = [ "push" ];
+        push-new = [
+          "push"
+          "--allow-new"
+        ];
+        pn = [ "push-new" ];
+        si = [
+          "squash"
+          "-i"
+        ];
+      };
+      fsmonitor = {
+        backend = "watchman";
+        watchman.register-snapshot-trigger = true;
+      };
+      git.private-commits = "description(glob:'wip:*') | description(glob:'private:*')";
+    };
+  };
   programs.nixvim.config = {
     enable = true;
-    extraPlugins = [ pkgs.vimPlugins.dracula-nvim ];
+    extraPlugins = [pkgs.vimPlugins.dracula-nvim];
 
     globals = {
       mapleader = " ";
@@ -245,9 +279,11 @@ in
       path add "/nix/var/nix/profiles/default/bin"
     '';
 
-    environmentVariables = builtins.mapAttrs (
-      name: value: "${builtins.toString value}"
-    ) config.home.sessionVariables;
+    environmentVariables =
+      builtins.mapAttrs (
+        name: value: "${builtins.toString value}"
+      )
+      config.home.sessionVariables;
 
     shellAliases = aliases.common;
   };
@@ -264,7 +300,7 @@ in
       Description = "SSH-agent service.";
     };
     Install = {
-      WantedBy = [ "default.target" ];
+      WantedBy = ["default.target"];
     };
     Service = {
       Type = "simple";
@@ -275,6 +311,5 @@ in
     };
   };
   # Add an environment.d file, so other services know about the SSH_AUTH_SOCK
-  home.file.".config/environment.d/20-ssh-auth-sochet.conf".text =
-    "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
+  home.file.".config/environment.d/20-ssh-auth-sochet.conf".text = "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
 }
