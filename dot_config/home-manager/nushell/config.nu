@@ -29,6 +29,8 @@ let external_completer = {|spans|
     } | do $in $spans
 }
 
+use ($nu.data-dir)/completions/uv.nu *
+
 $env.config = {
   show_banner: false,
   table: {
