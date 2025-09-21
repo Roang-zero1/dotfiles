@@ -5,7 +5,7 @@ export def git-merged [] {
 export def git-compare-remote [remote: string] {
   let remote_branches: list<string> = (git ls-remote -b backup | lines | split column  "\t" hash name | select name | each {|b| $b.name | str substring 11..})
   let local_branches: list<string> = (git for-each-ref --format='%(refname:short)' refs/heads/ | lines)
-  $remote_branches | filter {|id| not ($id in $local_branches) }
+  $remote_branches | where {|id| not ($id in $local_branches) }
 }
 
 export def git-remove-remote-branch [remote: string] {
