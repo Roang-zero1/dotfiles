@@ -95,6 +95,7 @@ in
         ".*ms-python.debugpy.*"
         "^\\.\\.+"
         "^class"
+        "/home/[a-zA-Z0-9_]+/.nix-profile/bin/.*"
       ];
     };
   };
