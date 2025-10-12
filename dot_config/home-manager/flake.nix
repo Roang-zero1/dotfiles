@@ -27,7 +27,7 @@
         (import nixpkgs {
           inherit system;
         }).pkgs;
-      nixvimModule = inputs.nixvim.homeManagerModules.nixvim;
+      nixvimModule = inputs.nixvim.homeModules.nixvim;
     in
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
