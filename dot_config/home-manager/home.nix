@@ -31,6 +31,7 @@ in {
     fd
     gh
     gitlint
+    koji
     lazydocker
     lazyjj
     nixd
