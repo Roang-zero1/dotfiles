@@ -2,11 +2,9 @@
   config,
   pkgs,
   ...
-}:
-let
+}: let
   aliases = import ./aliases.nix;
-in
-{
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "lucas";
@@ -49,12 +47,13 @@ in
     nerd-fonts.hack
     nerd-fonts.jetbrains-mono
     (python313.withPackages (
-      ps: with ps; [
-        ipython
-        ruff
-        uv
-        virtualenv
-      ]
+      ps:
+        with ps; [
+          ipython
+          ruff
+          uv
+          virtualenv
+        ]
     ))
     vivid
   ];
@@ -149,7 +148,7 @@ in
     };
 
     includes = [
-      { path = "~/.config/git/config.local"; }
+      {path = "~/.config/git/config.local";}
     ];
 
     delta = {
@@ -185,12 +184,12 @@ in
           "jj-pre-push"
           "push"
         ];
-        p = [ "push" ];
+        p = ["push"];
         push-new = [
           "push"
           "--allow-new"
         ];
-        pn = [ "push-new" ];
+        pn = ["push-new"];
         si = [
           "squash"
           "-i"
@@ -205,7 +204,7 @@ in
   };
   programs.nixvim.config = {
     enable = true;
-    extraPlugins = [ pkgs.vimPlugins.dracula-nvim ];
+    extraPlugins = [pkgs.vimPlugins.dracula-nvim];
 
     globals = {
       mapleader = " ";
@@ -280,9 +279,11 @@ in
       path add "/nix/var/nix/profiles/default/bin"
     '';
 
-    environmentVariables = builtins.mapAttrs (
-      name: value: "${builtins.toString value}"
-    ) config.home.sessionVariables;
+    environmentVariables =
+      builtins.mapAttrs (
+        name: value: "${builtins.toString value}"
+      )
+      config.home.sessionVariables;
 
     shellAliases = aliases.common;
   };
@@ -310,6 +311,5 @@ in
     };
   };
   # Add an environment.d file, so other services know about the SSH_AUTH_SOCK
-  home.file.".config/environment.d/20-ssh-auth-sochet.conf".text =
-    "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
+  home.file.".config/environment.d/20-ssh-auth-sochet.conf".text = "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
 }
