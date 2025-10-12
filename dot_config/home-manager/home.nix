@@ -31,6 +31,7 @@ in {
     fd
     gh
     gitlint
+    glances
     koji
     lazydocker
     lazyjj
