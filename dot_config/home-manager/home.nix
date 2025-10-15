@@ -73,6 +73,7 @@ in {
     PYLINTHOME = "${config.xdg.dataHome}/pylint";
     PYLINTRC = "${config.xdg.dataHome}/pylint/pylintrc";
     YADM_DIR = "${config.xdg.dataHome}/yadm";
+    SSH_AUTH_SOCK = "${config.home.homeDirectory}/.ssh/agent.sock";
   };
 
   home.sessionPath = [
@@ -299,21 +300,6 @@ in {
   # Create a ssh-agent service that can be used by all session
   # and services (e.g. code tunnel)
   systemd.user.services = {
-    ssh-agent = {
-      Unit = {
-        Description = "SSH-agent service.";
-      };
-      Install = {
-        WantedBy = ["default.target"];
-      };
-      Service = {
-        Type = "simple";
-        ExecStart = "/usr/bin/ssh-agent -D -a $SSH_AUTH_SOCK";
-        Environment = [
-          "SSH_AUTH_SOCK=%t/ssh-agent.socket"
-        ];
-      };
-    };
     pueue = {
       Unit = {
         Description = "Pueue Daemon - CLI process scheduler and manager";
@@ -327,6 +313,4 @@ in {
       };
     };
   };
-  # Add an environment.d file, so other services know about the SSH_AUTH_SOCK
-  home.file.".config/environment.d/20-ssh-auth-sochet.conf".text = "SSH_AUTH_SOCK=\"\${XDG_RUNTIME_DIR}/ssh-agent.socket\"";
 }
