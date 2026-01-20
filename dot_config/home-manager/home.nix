@@ -2,9 +2,11 @@
   config,
   pkgs,
   ...
-}: let
+}:
+let
   aliases = import ./aliases.nix;
-in {
+in
+{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "lbr";
@@ -51,13 +53,12 @@ in {
     nerd-fonts.hack
     nerd-fonts.jetbrains-mono
     (python313.withPackages (
-      ps:
-        with ps; [
-          ipython
-          ruff
-          uv
-          virtualenv
-        ]
+      ps: with ps; [
+        ipython
+        ruff
+        uv
+        virtualenv
+      ]
     ))
     vivid
   ];
@@ -110,6 +111,21 @@ in {
     enable = true;
     enableNushellIntegration = true;
   };
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = "true";
+      line-numbers = "true";
+      decorations = {
+        commit-decoration-style = "bold yellow box ul";
+        file-decoration-style = "none";
+        file-style = "bold yellow ul";
+      };
+      features = "decorations";
+      whitespace-error-style = "22 reverse";
+    };
+  };
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -118,23 +134,23 @@ in {
   programs.eza.enable = true;
   programs.git = {
     enable = true;
+    settings = {
+      user = {
+        name = "Lucas Brandstaetter";
+        email = "lucas@brandstaetter.tech";
+      };
 
-    userName = "Lucas Brandstaetter";
-    userEmail = "lucas@brandstaetter.tech";
+      aliases = {
+        branches = "branch -a";
+        tags = "tag";
+        stashes = "stash list";
 
-    aliases = {
-      branches = "branch -a";
-      tags = "tag";
-      stashes = "stash list";
+        amend = "commit --amend";
 
-      amend = "commit --amend";
-
-      c = "commit";
-      ane = "commit --amend --no-edit";
-      fu = "commit --fixup";
-    };
-
-    extraConfig = {
+        c = "commit";
+        ane = "commit --amend --no-edit";
+        fu = "commit --fixup";
+      };
       commit.verbose = true;
       merge = {
         stat = true;
@@ -152,23 +168,8 @@ in {
     };
 
     includes = [
-      {path = "~/.config/git/config.local";}
+      { path = "~/.config/git/config.local"; }
     ];
-
-    delta = {
-      enable = true;
-      options = {
-        navigate = "true";
-        line-numbers = "true";
-        decorations = {
-          commit-decoration-style = "bold yellow box ul";
-          file-decoration-style = "none";
-          file-style = "bold yellow ul";
-        };
-        features = "decorations";
-        whitespace-error-style = "22 reverse";
-      };
-    };
   };
   programs.jujutsu = {
     enable = true;
@@ -184,12 +185,12 @@ in {
           "jj-pre-push"
           "push"
         ];
-        p = ["push"];
+        p = [ "push" ];
         push-new = [
           "push"
           "--allow-new"
         ];
-        pn = ["push-new"];
+        pn = [ "push-new" ];
         si = [
           "squash"
           "-i"
@@ -204,7 +205,7 @@ in {
   };
   programs.nixvim.config = {
     enable = true;
-    extraPlugins = [pkgs.vimPlugins.dracula-nvim];
+    extraPlugins = [ pkgs.vimPlugins.dracula-nvim ];
 
     globals = {
       mapleader = " ";
@@ -279,11 +280,9 @@ in {
       path add "/nix/var/nix/profiles/default/bin"
     '';
 
-    environmentVariables =
-      builtins.mapAttrs (
-        name: value: "${builtins.toString value}"
-      )
-      config.home.sessionVariables;
+    environmentVariables = builtins.mapAttrs (
+      name: value: "${builtins.toString value}"
+    ) config.home.sessionVariables;
 
     shellAliases = aliases.common;
   };
@@ -301,7 +300,7 @@ in {
         Description = "Pueue Daemon - CLI process scheduler and manager";
       };
       Install = {
-        WantedBy = ["default.target"];
+        WantedBy = [ "default.target" ];
       };
       Service = {
         Restart = "no";
