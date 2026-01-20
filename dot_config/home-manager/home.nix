@@ -46,7 +46,6 @@ in
     rage
     shellcheck
     shfmt
-    yarn-berry
     zinit
     zsh-forgit
     nerd-fonts.fira-code
