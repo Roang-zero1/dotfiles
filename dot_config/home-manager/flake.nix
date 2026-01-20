@@ -37,7 +37,7 @@
           nixpkgs-fmt.enable = true;
         };
       };
-      homeConfigurations."lucas" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."lbr" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         # Specify your home configuration modules here, for example,

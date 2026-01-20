@@ -7,8 +7,8 @@
 in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "lucas";
-  home.homeDirectory = "/home/lucas";
+  home.username = "lbr";
+  home.homeDirectory = "/home/lbr";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -34,6 +34,7 @@ in {
     glances
     jjui
     koji
+    keychain
     lazydocker
     nixd
     # will be renamed in the future
@@ -73,7 +74,6 @@ in {
     PYLINTHOME = "${config.xdg.dataHome}/pylint";
     PYLINTRC = "${config.xdg.dataHome}/pylint/pylintrc";
     YADM_DIR = "${config.xdg.dataHome}/yadm";
-    SSH_AUTH_SOCK = "${config.home.homeDirectory}/.ssh/agent.sock";
   };
 
   home.sessionPath = [
@@ -175,10 +175,6 @@ in {
     settings = {
       user.name = "Lucas Brandstaetter";
       user.email = "lucas@brandstaetter.tech";
-      ui = {
-        editor = "code --wait";
-        merge-editor = "vscode";
-      };
       aliases = {
         push = [
           "util"
