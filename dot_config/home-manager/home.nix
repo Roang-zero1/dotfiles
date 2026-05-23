@@ -27,7 +27,6 @@ in {
     bitwarden-cli
     chezmoi
     curl
-    delta
     fd
     gh
     gitlint
@@ -110,6 +109,20 @@ in {
     enable = true;
     enableNushellIntegration = true;
   };
+  programs.delta = {
+    enable = true;
+    options = {
+      navigate = "true";
+      line-numbers = "true";
+      decorations = {
+        commit-decoration-style = "bold yellow box ul";
+        file-decoration-style = "none";
+        file-style = "bold yellow ul";
+      };
+      features = "decorations";
+      whitespace-error-style = "22 reverse";
+    };
+  };
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -119,22 +132,22 @@ in {
   programs.git = {
     enable = true;
 
-    userName = "Lucas Brandstaetter";
-    userEmail = "lucas@brandstaetter.tech";
+    settings = {
+      user = {
+        name = "Lucas Brandstaetter";
+        email = "lucas@brandstaetter.tech";
+      };
+      aliases = {
+        branches = "branch -a";
+        tags = "tag";
+        stashes = "stash list";
 
-    aliases = {
-      branches = "branch -a";
-      tags = "tag";
-      stashes = "stash list";
+        amend = "commit --amend";
 
-      amend = "commit --amend";
-
-      c = "commit";
-      ane = "commit --amend --no-edit";
-      fu = "commit --fixup";
-    };
-
-    extraConfig = {
+        c = "commit";
+        ane = "commit --amend --no-edit";
+        fu = "commit --fixup";
+      };
       commit.verbose = true;
       merge = {
         stat = true;
@@ -154,21 +167,6 @@ in {
     includes = [
       {path = "~/.config/git/config.local";}
     ];
-
-    delta = {
-      enable = true;
-      options = {
-        navigate = "true";
-        line-numbers = "true";
-        decorations = {
-          commit-decoration-style = "bold yellow box ul";
-          file-decoration-style = "none";
-          file-style = "bold yellow ul";
-        };
-        features = "decorations";
-        whitespace-error-style = "22 reverse";
-      };
-    };
   };
   programs.jujutsu = {
     enable = true;
