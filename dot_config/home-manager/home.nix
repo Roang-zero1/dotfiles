@@ -37,26 +37,16 @@ in {
     nixd
     # will be renamed in the future
     nixfmt-rfc-style
-    nodePackages.prettier
     pueue
     rage
     shellcheck
     shfmt
-    yarn-berry
     zinit
     zsh-forgit
     nerd-fonts.fira-code
     nerd-fonts.hack
     nerd-fonts.jetbrains-mono
-    (python313.withPackages (
-      ps:
-        with ps; [
-          ipython
-          ruff
-          uv
-          virtualenv
-        ]
-    ))
+    uv
     vivid
   ];
 
