@@ -31,9 +31,9 @@ in {
     gh
     gitlint
     glances
+    jjui
     koji
     lazydocker
-    lazyjj
     nixd
     # will be renamed in the future
     nixfmt-rfc-style
